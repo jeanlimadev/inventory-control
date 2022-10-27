@@ -16,3 +16,17 @@ model product {
   name       String   @unique
   created_at DateTime @default(now())
 }
+
+model client {
+  id              String   @id @default(uuid())
+  name            String
+  document_number String   @unique
+  created_at      DateTime @default(now())
+}
+
+model provider {
+  id              String   @id @default(uuid())
+  name            String
+  document_number String   @unique
+  created_at      DateTime @default(now())
+}
