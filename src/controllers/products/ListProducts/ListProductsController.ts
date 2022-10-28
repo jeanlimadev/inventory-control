@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { prismaClient } from "../../database/prismaClient";
+import { prismaClient } from "../../../database/prismaClient";
 
 class ListProductsController {
   async handle(request: Request, response: Response): Promise<Response> {
