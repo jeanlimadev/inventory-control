@@ -1,4 +1,5 @@
 import { Router } from "express";
+
 import { CreateProductController } from "../controllers/products/CreateProduct/CreateProductController";
 import { DeleteProductController } from "../controllers/products/DeleteProduct/DeleteProductController";
 import { ListProductsController } from "../controllers/products/ListProducts/ListProductsController";
