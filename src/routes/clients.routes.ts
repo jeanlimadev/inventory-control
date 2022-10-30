@@ -20,7 +20,7 @@ clientsRoutes.post(
 clientsRoutes.get("/", ensureAuthenticated, listClientsController.handle);
 
 clientsRoutes.delete(
-  "/delete",
+  "/delete/:id",
   ensureAuthenticated,
   deleteClientController.handle
 );

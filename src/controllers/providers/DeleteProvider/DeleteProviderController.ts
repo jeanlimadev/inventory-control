@@ -3,11 +3,11 @@ import { prismaClient } from "../../../database/prismaClient";
 
 class DeleteProviderController {
   async handle(request: Request, response: Response): Promise<Response> {
-    const { document_number } = request.body;
+    const { id } = request.params;
 
     const providerExists = await prismaClient.provider.count({
       where: {
-        document_number,
+        id,
       },
     });
 
@@ -17,7 +17,7 @@ class DeleteProviderController {
 
     await prismaClient.provider.delete({
       where: {
-        document_number,
+        id,
       },
     });
 

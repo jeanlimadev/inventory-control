@@ -20,7 +20,7 @@ productsRoutes.post(
 productsRoutes.get("/", ensureAuthenticated, listProductsController.handle);
 
 productsRoutes.delete(
-  "/delete",
+  "/delete/:id",
   ensureAuthenticated,
   deleteProductController.handle
 );

@@ -20,7 +20,7 @@ providersRoutes.post(
 providersRoutes.get("/", ensureAuthenticated, listProvidersController.handle);
 
 providersRoutes.delete(
-  "/delete",
+  "/delete/:id",
   ensureAuthenticated,
   deleteProviderController.handle
 );

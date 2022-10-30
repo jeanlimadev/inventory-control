@@ -3,11 +3,11 @@ import { prismaClient } from "../../../database/prismaClient";
 
 class DeleteProductController {
   async handle(request: Request, response: Response): Promise<Response> {
-    const { name } = request.body;
+    const { id } = request.params;
 
     const productExists = await prismaClient.product.count({
       where: {
-        name,
+        id,
       },
     });
 
@@ -17,7 +17,7 @@ class DeleteProductController {
 
     await prismaClient.product.delete({
       where: {
-        name,
+        id,
       },
     });
 
