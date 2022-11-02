@@ -3,7 +3,7 @@ import request from "supertest";
 
 import { app } from "../../../app";
 
-describe("Delete a product", async () => {
+describe("List products", async () => {
   const responseToken = await request(app).post("/users/sessions").send({
     email: "admin@admin.com",
     password: "admin",
@@ -11,33 +11,24 @@ describe("Delete a product", async () => {
 
   const { token } = responseToken.body;
 
-  it("should be able to delete a product", async () => {
-    const productResponse = await request(app)
+  it("should be able to list all products", async () => {
+    await request(app)
       .post("/products/create")
       .send({
-        name: "Test Product Name",
+        name: "Test Name",
+        document_number: "121212",
       })
       .set({
         Authorization: `Bearer ${token}`,
       });
 
     const response = await request(app)
-      .delete(`/products/delete/${productResponse.body["id"]}`)
+      .get("/products")
       .set({
         Authorization: `Bearer ${token}`,
       });
 
     expect(response.status).toBe(200);
-  });
-
-  it("should not be able to delete a non existent product", async () => {
-    const response = await request(app)
-      .delete(`/products/delete/abc1234`)
-      .set({
-        Authorization: `Bearer ${token}`,
-      });
-
-    expect(response.status).toBe(404);
-    expect(response.body).toHaveProperty("error");
+    expect(response.body[0]).toHaveProperty("id");
   });
 });

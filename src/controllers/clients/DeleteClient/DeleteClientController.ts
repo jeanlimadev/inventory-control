@@ -5,13 +5,13 @@ class DeleteClientController {
   async handle(request: Request, response: Response): Promise<Response> {
     const { id } = request.params;
 
-    const clientExists = await prismaClient.client.count({
+    const clientExists = await prismaClient.client.findFirst({
       where: {
         id,
       },
     });
 
-    if (clientExists === 0) {
+    if (!clientExists) {
       return response.status(404).json({ error: "Client not found!" });
     }
 

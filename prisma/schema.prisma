@@ -12,23 +12,27 @@ datasource db {
 }
 
 model product {
-  id         String   @id @default(uuid())
-  name       String   @unique
-  created_at DateTime @default(now())
+  id            String          @id @default(uuid())
+  name          String          @unique
+  created_at    DateTime        @default(now())
+  buy_products  buy_products[]
+  sell_products sell_products[]
 }
 
 model client {
-  id              String   @id @default(uuid())
+  id              String          @id @default(uuid())
   name            String
-  document_number String   @unique
-  created_at      DateTime @default(now())
+  document_number String          @unique
+  created_at      DateTime        @default(now())
+  sell_products   sell_products[]
 }
 
 model provider {
-  id              String   @id @default(uuid())
+  id              String         @id @default(uuid())
   name            String
-  document_number String   @unique
-  created_at      DateTime @default(now())
+  document_number String         @unique
+  created_at      DateTime       @default(now())
+  buy_products    buy_products[]
 }
 
 model user {
@@ -38,4 +42,26 @@ model user {
   password   String
   isAdmin    Boolean  @default(false)
   created_at DateTime @default(now())
+}
+
+model buy_products {
+  id          String   @id @default(uuid())
+  id_product  product  @relation(fields: [product_id], references: [id])
+  product_id  String
+  amount      Float
+  cost        Float
+  id_provider provider @relation(fields: [provider_id], references: [id])
+  provider_id String
+  created_at  DateTime @default(now())
+}
+
+model sell_products {
+  id          String   @id @default(uuid())
+  id_product  product  @relation(fields: [product_id], references: [id])
+  product_id  String
+  amount      Float
+  cost        Float
+  id_provider client   @relation(fields: [client_id], references: [id])
+  client_id   String
+  created_at  DateTime @default(now())
 }

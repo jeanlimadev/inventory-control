@@ -1,39 +1,65 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, beforeAll, beforeEach } from "vitest";
 import request from "supertest";
 
 import { app } from "../../../app";
 
-describe("Create new client", () => {
+describe("Create new client", async () => {
+  const responseToken = await request(app).post("/users/sessions").send({
+    email: "admin@admin.com",
+    password: "admin",
+  });
+
+  const { token } = responseToken.body;
+
   it("should be able to create a new client", async () => {
-    const response = await request(app).post("/clients/create").send({
-      name: "Test Name",
-      document_number: "12345678",
-    });
+    const response = await request(app)
+      .post("/clients/create")
+      .send({
+        name: "Test Name",
+        document_number: "12345678",
+      })
+      .set({
+        Authorization: `Bearer ${token}`,
+      });
 
     expect(response.status).toBe(200);
     expect(response.body).toHaveProperty("id");
 
-    await request(app).delete("/clients/delete").send({
-      document_number: "12345678",
-    });
+    await request(app)
+      .delete(`/clients/delete/${response.body["id"]}`)
+      .set({
+        Authorization: `Bearer ${token}`,
+      });
   });
 
   it("should not be able to create a new client with existent document number", async () => {
-    await request(app).post("/clients/create").send({
-      name: "Test Name",
-      document_number: "12345678",
-    });
+    const clientResponse = await request(app)
+      .post("/clients/create")
+      .send({
+        name: "Test Name",
+        document_number: "12345678",
+      })
+      .set({
+        Authorization: `Bearer ${token}`,
+      });
 
-    const response = await request(app).post("/clients/create").send({
-      name: "Test Name",
-      document_number: "12345678",
-    });
+    const response = await request(app)
+      .post("/clients/create")
+      .send({
+        name: "Test Name",
+        document_number: "12345678",
+      })
+      .set({
+        Authorization: `Bearer ${token}`,
+      });
 
     expect(response.status).toBe(500);
     expect(response.body).toHaveProperty("error");
 
-    await request(app).delete("/clients/delete").send({
-      document_number: "12345678",
-    });
+    await request(app)
+      .delete(`/clients/delete/${clientResponse.body["id"]}`)
+      .set({
+        Authorization: `Bearer ${token}`,
+      });
   });
 });

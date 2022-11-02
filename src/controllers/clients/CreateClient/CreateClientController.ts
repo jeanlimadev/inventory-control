@@ -5,13 +5,13 @@ class CreateClientController {
   async handle(request: Request, response: Response): Promise<Response> {
     const { name, document_number } = request.body;
 
-    const clientAlreadyExists = await prismaClient.client.count({
+    const clientAlreadyExists = await prismaClient.client.findFirst({
       where: {
         document_number,
       },
     });
 
-    if (clientAlreadyExists != 0) {
+    if (clientAlreadyExists) {
       return response.status(500).json({ error: "Client already exists!" });
     }
 

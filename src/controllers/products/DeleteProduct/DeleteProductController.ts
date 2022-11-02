@@ -5,13 +5,13 @@ class DeleteProductController {
   async handle(request: Request, response: Response): Promise<Response> {
     const { id } = request.params;
 
-    const productExists = await prismaClient.product.count({
+    const productExists = await prismaClient.product.findFirst({
       where: {
         id,
       },
     });
 
-    if (productExists === 0) {
+    if (!productExists) {
       return response.status(404).json({ error: "Product not found!" });
     }
 
