@@ -9,6 +9,8 @@ RUN npm install --force
 
 COPY . .
 
+RUN npx prisma migrate dev
+
 EXPOSE 3333
 
 CMD ["npm", "run", "dev"]
