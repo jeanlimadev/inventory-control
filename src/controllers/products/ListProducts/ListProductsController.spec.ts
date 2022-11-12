@@ -12,7 +12,7 @@ describe("List products", async () => {
   const { token } = responseToken.body;
 
   it("should be able to list all products", async () => {
-    await request(app)
+    const product = await request(app)
       .post("/products/create")
       .send({
         name: "Test Name",
@@ -30,5 +30,11 @@ describe("List products", async () => {
 
     expect(response.status).toBe(200);
     expect(response.body[0]).toHaveProperty("id");
+
+    await request(app)
+      .delete(`/products/delete/${product.body["id"]}`)
+      .set({
+        Authorization: `Bearer ${token}`,
+      });
   });
 });

@@ -4,29 +4,33 @@ import { prismaClient } from "../../../database/prismaClient";
 
 class CreateUserController {
   async handle(request: Request, response: Response): Promise<Response> {
-    const { name, email, password } = request.body;
+    try {
+      const { name, email, password } = request.body;
 
-    const passwordHash = await hash(password, 8);
+      const passwordHash = await hash(password, 8);
 
-    const userAlreadyExists = await prismaClient.user.findFirst({
-      where: {
-        email,
-      },
-    });
+      const userAlreadyExists = await prismaClient.user.findFirst({
+        where: {
+          email,
+        },
+      });
 
-    if (userAlreadyExists) {
-      return response.status(500).json({ error: "user already exists!" });
+      if (userAlreadyExists) {
+        return response.status(500).json({ error: "user already exists!" });
+      }
+
+      await prismaClient.user.create({
+        data: {
+          name,
+          email,
+          password: passwordHash,
+        },
+      });
+
+      return response.status(201).send();
+    } catch (error) {
+      return response.status(400).json({ error: "Verify your request data." });
     }
-
-    await prismaClient.user.create({
-      data: {
-        name,
-        email,
-        password: passwordHash,
-      },
-    });
-
-    return response.status(201).send();
   }
 }
 

@@ -15,7 +15,7 @@ describe("Delete a product", async () => {
     const productResponse = await request(app)
       .post("/products/create")
       .send({
-        name: "Test Product Name",
+        name: "Test Name",
       })
       .set({
         Authorization: `Bearer ${token}`,
