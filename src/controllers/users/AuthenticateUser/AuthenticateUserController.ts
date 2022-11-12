@@ -15,42 +15,46 @@ interface IResponse {
 
 class AuthenticateUserController {
   async handle(request: Request, response: Response): Promise<Response> {
-    const { email, password } = request.body;
+    try {
+      const { email, password } = request.body;
 
-    const user = await prismaClient.user.findFirst({
-      where: {
-        email,
-      },
-    });
+      const user = await prismaClient.user.findFirst({
+        where: {
+          email,
+        },
+      });
 
-    if (!user) {
-      return response
-        .status(500)
-        .json({ error: "Email or password incorrect!" });
+      if (!user) {
+        return response
+          .status(500)
+          .json({ error: "Email or password incorrect!" });
+      }
+
+      const passwordMatch = await compare(password, user.password);
+
+      if (!passwordMatch) {
+        return response
+          .status(500)
+          .json({ error: "Email or password incorrect!" });
+      }
+
+      const token = sign({}, auth.secret_token, {
+        subject: user.id,
+        expiresIn: auth.expires_in_token,
+      });
+
+      const tokenReturn: IResponse = {
+        user: {
+          name: user.name,
+          email: user.email,
+        },
+        token,
+      };
+
+      return response.json(tokenReturn);
+    } catch (error) {
+      return response.status(400).json({ error: "Verify your request data." });
     }
-
-    const passwordMatch = await compare(password, user.password);
-
-    if (!passwordMatch) {
-      return response
-        .status(500)
-        .json({ error: "Email or password incorrect!" });
-    }
-
-    const token = sign({}, auth.secret_token, {
-      subject: user.id,
-      expiresIn: auth.expires_in_token,
-    });
-
-    const tokenReturn: IResponse = {
-      user: {
-        name: user.name,
-        email: user.email,
-      },
-      token,
-    };
-
-    return response.json(tokenReturn);
   }
 }
 
