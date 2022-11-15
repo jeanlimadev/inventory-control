@@ -12,11 +12,11 @@ describe("List providers", async () => {
   const { token } = responseToken.body;
 
   it("should be able to list all providers", async () => {
-    await request(app)
+    const provider = await request(app)
       .post("/providers/create")
       .send({
         name: "Test Name",
-        document_number: "121212",
+        document_number: "999999",
       })
       .set({
         Authorization: `Bearer ${token}`,
@@ -30,5 +30,11 @@ describe("List providers", async () => {
 
     expect(response.status).toBe(200);
     expect(response.body[0]).toHaveProperty("id");
+
+    await request(app)
+      .delete(`/providers/delete/${provider.body["id"]}`)
+      .set({
+        Authorization: `Bearer ${token}`,
+      });
   });
 });

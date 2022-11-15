@@ -12,7 +12,7 @@ describe("List Clients", async () => {
   const { token } = responseToken.body;
 
   it("should be able to list all clients", async () => {
-    await request(app)
+    const client = await request(app)
       .post("/clients/create")
       .send({
         name: "Test Name",
@@ -30,5 +30,11 @@ describe("List Clients", async () => {
 
     expect(response.status).toBe(200);
     expect(response.body[0]).toHaveProperty("id");
+
+    await request(app)
+      .delete(`/clients/delete/${client.body["id"]}`)
+      .set({
+        Authorization: `Bearer ${token}`,
+      });
   });
 });
