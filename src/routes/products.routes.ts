@@ -11,6 +11,8 @@ import { DeleteSaleController } from "../controllers/products/sales/DeleteSale/D
 import { EditProductController } from "../controllers/products/EditProduct/EditProductController";
 import { EditPurchaseController } from "../controllers/products/purchases/EditPurchase/EditPurchaseController";
 import { EditSaleController } from "../controllers/products/sales/EditSale/EditSaleController";
+import { FilterPurchasesByProviderAndPeriod } from "../controllers/products/purchases/FilterPurchases/FilterPurchasesByProviderAndPeriod";
+import { FilterSalesByClientAndPeriod } from "../controllers/products/sales/FilterSales/FilterSalesByClientAndPeriod";
 
 const productsRoutes = Router();
 
@@ -20,9 +22,12 @@ const editProductController = new EditProductController();
 const deleteProductController = new DeleteProductController();
 const buyProductsController = new BuyProductController();
 const editPurchaseController = new EditPurchaseController();
+const filterPurchasesByProviderAndPeriod =
+  new FilterPurchasesByProviderAndPeriod();
 const deletePurchaseController = new DeletePurchaseController();
 const sellProductsController = new SellProductController();
 const editSaleController = new EditSaleController();
+const filterSalesByClientAndPeriod = new FilterSalesByClientAndPeriod();
 const deleteSaleController = new DeleteSaleController();
 
 productsRoutes.post(
@@ -57,6 +62,12 @@ productsRoutes.patch(
   editPurchaseController.handle
 );
 
+productsRoutes.get(
+  "/purchase/filter/:id",
+  ensureAuthenticated,
+  filterPurchasesByProviderAndPeriod.handle
+);
+
 productsRoutes.delete(
   "/purchase/:id",
   ensureAuthenticated,
@@ -73,6 +84,12 @@ productsRoutes.patch(
   "/sell/edit/:id",
   ensureAuthenticated,
   editSaleController.handle
+);
+
+productsRoutes.get(
+  "/sell/filter/:id",
+  ensureAuthenticated,
+  filterSalesByClientAndPeriod.handle
 );
 
 productsRoutes.delete(
