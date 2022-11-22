@@ -4,7 +4,7 @@ import request from "supertest";
 import { app } from "../../../app";
 
 describe("Create new product", async () => {
-  const responseToken = await request(app).post("/users/sessions").send({
+  const responseToken = await request(app).post("/users/auth").send({
     email: "admin@admin.com",
     password: "admin",
   });
@@ -13,7 +13,7 @@ describe("Create new product", async () => {
 
   it("should be able to create a new product", async () => {
     const response = await request(app)
-      .post("/products/create")
+      .post("/products")
       .send({
         name: "Test Product Name",
       })
@@ -25,7 +25,7 @@ describe("Create new product", async () => {
     expect(response.body).toHaveProperty("id");
 
     await request(app)
-      .delete(`/products/delete/${response.body["id"]}`)
+      .delete(`/products/${response.body["id"]}`)
       .set({
         Authorization: `Bearer ${token}`,
       });
@@ -33,7 +33,7 @@ describe("Create new product", async () => {
 
   it("should not be able to create a new product with existent document number", async () => {
     const productResponse = await request(app)
-      .post("/products/create")
+      .post("/products")
       .send({
         name: "Test Product Name",
       })
@@ -42,7 +42,7 @@ describe("Create new product", async () => {
       });
 
     const response = await request(app)
-      .post("/products/create")
+      .post("/products")
       .send({
         name: "Test Product Name",
       })
@@ -54,7 +54,7 @@ describe("Create new product", async () => {
     expect(response.body).toHaveProperty("error");
 
     await request(app)
-      .delete(`/products/delete/${productResponse.body["id"]}`)
+      .delete(`/products/${productResponse.body["id"]}`)
       .set({
         Authorization: `Bearer ${token}`,
       });

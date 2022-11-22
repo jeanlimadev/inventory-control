@@ -4,7 +4,7 @@ import request from "supertest";
 import { app } from "../../../../app";
 
 describe("Sell Products", async () => {
-  const responseToken = await request(app).post("/users/sessions").send({
+  const responseToken = await request(app).post("/users/auth").send({
     email: "admin@admin.com",
     password: "admin",
   });
@@ -13,7 +13,7 @@ describe("Sell Products", async () => {
 
   it("should be able to sell a registered product to a registered client", async () => {
     const product = await request(app)
-      .post("/products/create")
+      .post("/products")
       .send({
         name: "Sell product test",
       })
@@ -22,7 +22,7 @@ describe("Sell Products", async () => {
       });
 
     const client = await request(app)
-      .post("/clients/create")
+      .post("/clients")
       .send({
         name: "Sell client test",
         document_number: "123456789",
@@ -32,7 +32,7 @@ describe("Sell Products", async () => {
       });
 
     const provider = await request(app)
-      .post("/providers/create")
+      .post("/providers")
       .send({
         name: "Buy provider test",
         document_number: "123456789",
@@ -81,19 +81,19 @@ describe("Sell Products", async () => {
       });
 
     await request(app)
-      .delete(`/products/delete/${product.body["id"]}`)
+      .delete(`/products/${product.body["id"]}`)
       .set({
         Authorization: `Bearer ${token}`,
       });
 
     await request(app)
-      .delete(`/clients/delete/${client.body["id"]}`)
+      .delete(`/clients/${client.body["id"]}`)
       .set({
         Authorization: `Bearer ${token}`,
       });
 
     await request(app)
-      .delete(`/providers/delete/${provider.body["id"]}`)
+      .delete(`/providers/${provider.body["id"]}`)
       .set({
         Authorization: `Bearer ${token}`,
       });
@@ -101,7 +101,7 @@ describe("Sell Products", async () => {
 
   it("should not be able to sell a registered product to a registered client if the quantity is greater than available in stock", async () => {
     const product = await request(app)
-      .post("/products/create")
+      .post("/products")
       .send({
         name: "Sell product test",
       })
@@ -110,7 +110,7 @@ describe("Sell Products", async () => {
       });
 
     const client = await request(app)
-      .post("/clients/create")
+      .post("/clients")
       .send({
         name: "Sell client test",
         document_number: "123456789",
@@ -120,7 +120,7 @@ describe("Sell Products", async () => {
       });
 
     const provider = await request(app)
-      .post("/providers/create")
+      .post("/providers")
       .send({
         name: "Buy provider test",
         document_number: "123456789",
@@ -163,19 +163,19 @@ describe("Sell Products", async () => {
       });
 
     await request(app)
-      .delete(`/products/delete/${product.body["id"]}`)
+      .delete(`/products/${product.body["id"]}`)
       .set({
         Authorization: `Bearer ${token}`,
       });
 
     await request(app)
-      .delete(`/clients/delete/${client.body["id"]}`)
+      .delete(`/clients/${client.body["id"]}`)
       .set({
         Authorization: `Bearer ${token}`,
       });
 
     await request(app)
-      .delete(`/providers/delete/${provider.body["id"]}`)
+      .delete(`/providers/${provider.body["id"]}`)
       .set({
         Authorization: `Bearer ${token}`,
       });
@@ -183,7 +183,7 @@ describe("Sell Products", async () => {
 
   it("should not be able to sale a registered product to a non registered client", async () => {
     const product = await request(app)
-      .post("/products/create")
+      .post("/products")
       .send({
         name: "Sell product test",
       })
@@ -192,7 +192,7 @@ describe("Sell Products", async () => {
       });
 
     const provider = await request(app)
-      .post("/providers/create")
+      .post("/providers")
       .send({
         name: "Buy provider test",
         document_number: "123456789",
@@ -235,13 +235,13 @@ describe("Sell Products", async () => {
       });
 
     await request(app)
-      .delete(`/products/delete/${product.body["id"]}`)
+      .delete(`/products/${product.body["id"]}`)
       .set({
         Authorization: `Bearer ${token}`,
       });
 
     await request(app)
-      .delete(`/providers/delete/${provider.body["id"]}`)
+      .delete(`/providers/${provider.body["id"]}`)
       .set({
         Authorization: `Bearer ${token}`,
       });
@@ -249,7 +249,7 @@ describe("Sell Products", async () => {
 
   it("should not be able to sale a non registered product to a registered client", async () => {
     const product = await request(app)
-      .post("/products/create")
+      .post("/products")
       .send({
         name: "Sell product test",
       })
@@ -258,7 +258,7 @@ describe("Sell Products", async () => {
       });
 
     const provider = await request(app)
-      .post("/providers/create")
+      .post("/providers")
       .send({
         name: "Buy provider test",
         document_number: "123456789",
@@ -268,7 +268,7 @@ describe("Sell Products", async () => {
       });
 
     const client = await request(app)
-      .post("/clients/create")
+      .post("/clients")
       .send({
         name: "Sell client test",
         document_number: "123456789",
@@ -311,19 +311,19 @@ describe("Sell Products", async () => {
       });
 
     await request(app)
-      .delete(`/products/delete/${product.body["id"]}`)
+      .delete(`/products/${product.body["id"]}`)
       .set({
         Authorization: `Bearer ${token}`,
       });
 
     await request(app)
-      .delete(`/providers/delete/${provider.body["id"]}`)
+      .delete(`/providers/${provider.body["id"]}`)
       .set({
         Authorization: `Bearer ${token}`,
       });
 
     await request(app)
-      .delete(`/clients/delete/${client.body["id"]}`)
+      .delete(`/clients/${client.body["id"]}`)
       .set({
         Authorization: `Bearer ${token}`,
       });

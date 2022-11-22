@@ -4,7 +4,7 @@ import request from "supertest";
 import { app } from "../../../app";
 
 describe("Create new provider", async () => {
-  const responseToken = await request(app).post("/users/sessions").send({
+  const responseToken = await request(app).post("/users/auth").send({
     email: "admin@admin.com",
     password: "admin",
   });
@@ -13,7 +13,7 @@ describe("Create new provider", async () => {
 
   it("should be able to create a new provider", async () => {
     const response = await request(app)
-      .post("/providers/create")
+      .post("/providers")
       .send({
         name: "Test Name",
         document_number: "12345678",
@@ -26,7 +26,7 @@ describe("Create new provider", async () => {
     expect(response.body).toHaveProperty("id");
 
     await request(app)
-      .delete(`/providers/delete/${response.body["id"]}`)
+      .delete(`/providers/${response.body["id"]}`)
       .set({
         Authorization: `Bearer ${token}`,
       });
@@ -34,7 +34,7 @@ describe("Create new provider", async () => {
 
   it("should not be able to create a new provider with existent document number", async () => {
     const providerResponse = await request(app)
-      .post("/providers/create")
+      .post("/providers")
       .send({
         name: "Test Name",
         document_number: "12345678",
@@ -44,7 +44,7 @@ describe("Create new provider", async () => {
       });
 
     const response = await request(app)
-      .post("/providers/create")
+      .post("/providers")
       .send({
         name: "Test Name",
         document_number: "12345678",
@@ -57,7 +57,7 @@ describe("Create new provider", async () => {
     expect(response.body).toHaveProperty("error");
 
     await request(app)
-      .delete(`/providers/delete/${providerResponse.body["id"]}`)
+      .delete(`/providers/${providerResponse.body["id"]}`)
       .set({
         Authorization: `Bearer ${token}`,
       });

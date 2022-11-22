@@ -4,7 +4,7 @@ import request from "supertest";
 import { app } from "../../../app";
 
 describe("Create new client", async () => {
-  const responseToken = await request(app).post("/users/sessions").send({
+  const responseToken = await request(app).post("/users/auth").send({
     email: "admin@admin.com",
     password: "admin",
   });
@@ -13,7 +13,7 @@ describe("Create new client", async () => {
 
   it("should be able to create a new client", async () => {
     const response = await request(app)
-      .post("/clients/create")
+      .post("/clients")
       .send({
         name: "Test Name",
         document_number: "12345678",
@@ -26,7 +26,7 @@ describe("Create new client", async () => {
     expect(response.body).toHaveProperty("id");
 
     await request(app)
-      .delete(`/clients/delete/${response.body["id"]}`)
+      .delete(`/clients/${response.body["id"]}`)
       .set({
         Authorization: `Bearer ${token}`,
       });
@@ -34,7 +34,7 @@ describe("Create new client", async () => {
 
   it("should not be able to create a new client with existent document number", async () => {
     const clientResponse = await request(app)
-      .post("/clients/create")
+      .post("/clients")
       .send({
         name: "Test Name",
         document_number: "12345678",
@@ -44,7 +44,7 @@ describe("Create new client", async () => {
       });
 
     const response = await request(app)
-      .post("/clients/create")
+      .post("/clients")
       .send({
         name: "Test Name",
         document_number: "12345678",
@@ -57,7 +57,7 @@ describe("Create new client", async () => {
     expect(response.body).toHaveProperty("error");
 
     await request(app)
-      .delete(`/clients/delete/${clientResponse.body["id"]}`)
+      .delete(`/clients/${clientResponse.body["id"]}`)
       .set({
         Authorization: `Bearer ${token}`,
       });

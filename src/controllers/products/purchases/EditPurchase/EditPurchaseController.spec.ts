@@ -4,7 +4,7 @@ import request from "supertest";
 import { app } from "../../../../app";
 
 describe("Edit Purchase", async () => {
-  const responseToken = await request(app).post("/users/sessions").send({
+  const responseToken = await request(app).post("/users/auth").send({
     email: "admin@admin.com",
     password: "admin",
   });
@@ -13,7 +13,7 @@ describe("Edit Purchase", async () => {
 
   it("should be able to edit a registered purchase", async () => {
     const provider = await request(app)
-      .post("/providers/create")
+      .post("/providers")
       .send({
         name: "Provider Test",
         document_number: "123456789",
@@ -23,7 +23,7 @@ describe("Edit Purchase", async () => {
       });
 
     const product = await request(app)
-      .post("/products/create")
+      .post("/products")
       .send({
         name: "Product Test",
       })
@@ -64,13 +64,13 @@ describe("Edit Purchase", async () => {
       });
 
     await request(app)
-      .delete(`/products/delete/${product.body["id"]}`)
+      .delete(`/products/${product.body["id"]}`)
       .set({
         Authorization: `Bearer ${token}`,
       });
 
     await request(app)
-      .delete(`/providers/delete/${provider.body["id"]}`)
+      .delete(`/providers/${provider.body["id"]}`)
       .set({
         Authorization: `Bearer ${token}`,
       });
@@ -78,7 +78,7 @@ describe("Edit Purchase", async () => {
 
   it("should not be able to edit a registered purchase with less than allowed quantity", async () => {
     const provider = await request(app)
-      .post("/providers/create")
+      .post("/providers")
       .send({
         name: "Provider Test",
         document_number: "12345678",
@@ -88,7 +88,7 @@ describe("Edit Purchase", async () => {
       });
 
     const product = await request(app)
-      .post("/products/create")
+      .post("/products")
       .send({
         name: "Product Test",
       })
@@ -128,13 +128,13 @@ describe("Edit Purchase", async () => {
       });
 
     await request(app)
-      .delete(`/products/delete/${product.body["id"]}`)
+      .delete(`/products/${product.body["id"]}`)
       .set({
         Authorization: `Bearer ${token}`,
       });
 
     await request(app)
-      .delete(`/providers/delete/${provider.body["id"]}`)
+      .delete(`/providers/${provider.body["id"]}`)
       .set({
         Authorization: `Bearer ${token}`,
       });

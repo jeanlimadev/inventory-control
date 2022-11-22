@@ -7,7 +7,7 @@ import { app } from "../../../../app";
 import { DayJsDateProvider } from "../../../../utils/DateProvider/DayJsDateProvider";
 
 describe("Filter sales by client and period", async () => {
-  const responseToken = await request(app).post("/users/sessions").send({
+  const responseToken = await request(app).post("/users/auth").send({
     email: "admin@admin.com",
     password: "admin",
   });
@@ -18,7 +18,7 @@ describe("Filter sales by client and period", async () => {
 
   it("should be able to filter all sales of a client", async () => {
     const provider = await request(app)
-      .post("/providers/create")
+      .post("/providers")
       .send({
         name: "Provider Test",
         document_number: "123456789",
@@ -28,7 +28,7 @@ describe("Filter sales by client and period", async () => {
       });
 
     const product = await request(app)
-      .post("/products/create")
+      .post("/products")
       .send({
         name: "Product Test",
       })
@@ -49,7 +49,7 @@ describe("Filter sales by client and period", async () => {
       });
 
     const client = await request(app)
-      .post("/clients/create")
+      .post("/clients")
       .send({
         name: "Client Test",
         document_number: "123456789",
@@ -111,19 +111,19 @@ describe("Filter sales by client and period", async () => {
       });
 
     await request(app)
-      .delete(`/products/delete/${product.body["id"]}`)
+      .delete(`/products/${product.body["id"]}`)
       .set({
         Authorization: `Bearer ${token}`,
       });
 
     await request(app)
-      .delete(`/providers/delete/${provider.body["id"]}`)
+      .delete(`/providers/${provider.body["id"]}`)
       .set({
         Authorization: `Bearer ${token}`,
       });
 
     await request(app)
-      .delete(`/clients/delete/${client.body["id"]}`)
+      .delete(`/clients/${client.body["id"]}`)
       .set({
         Authorization: `Bearer ${token}`,
       });
@@ -131,7 +131,7 @@ describe("Filter sales by client and period", async () => {
 
   it("should be able to filter all sales of a client by a period", async () => {
     const provider = await request(app)
-      .post("/providers/create")
+      .post("/providers")
       .send({
         name: "Provider Test",
         document_number: "123456789",
@@ -141,7 +141,7 @@ describe("Filter sales by client and period", async () => {
       });
 
     const product = await request(app)
-      .post("/products/create")
+      .post("/products")
       .send({
         name: "Product Test",
       })
@@ -162,7 +162,7 @@ describe("Filter sales by client and period", async () => {
       });
 
     const client = await request(app)
-      .post("/clients/create")
+      .post("/clients")
       .send({
         name: "Client Test",
         document_number: "123456789",
@@ -259,19 +259,19 @@ describe("Filter sales by client and period", async () => {
       });
 
     await request(app)
-      .delete(`/products/delete/${product.body["id"]}`)
+      .delete(`/products/${product.body["id"]}`)
       .set({
         Authorization: `Bearer ${token}`,
       });
 
     await request(app)
-      .delete(`/providers/delete/${provider.body["id"]}`)
+      .delete(`/providers/${provider.body["id"]}`)
       .set({
         Authorization: `Bearer ${token}`,
       });
 
     await request(app)
-      .delete(`/clients/delete/${client.body["id"]}`)
+      .delete(`/clients/${client.body["id"]}`)
       .set({
         Authorization: `Bearer ${token}`,
       });

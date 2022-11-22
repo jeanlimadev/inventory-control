@@ -30,11 +30,7 @@ const editSaleController = new EditSaleController();
 const filterSalesByClientAndPeriod = new FilterSalesByClientAndPeriod();
 const deleteSaleController = new DeleteSaleController();
 
-productsRoutes.post(
-  "/create",
-  ensureAuthenticated,
-  createProductController.handle
-);
+productsRoutes.post("/", ensureAuthenticated, createProductController.handle);
 
 productsRoutes.get("/", ensureAuthenticated, listProductsController.handle);
 
@@ -45,7 +41,7 @@ productsRoutes.patch(
 );
 
 productsRoutes.delete(
-  "/delete/:id",
+  "/:id",
   ensureAuthenticated,
   deleteProductController.handle
 );

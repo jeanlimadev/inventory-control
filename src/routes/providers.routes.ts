@@ -13,11 +13,7 @@ const listProvidersController = new ListProvidersController();
 const editProviderController = new EditProviderController();
 const deleteProviderController = new DeleteProviderController();
 
-providersRoutes.post(
-  "/create",
-  ensureAuthenticated,
-  createProviderController.handle
-);
+providersRoutes.post("/", ensureAuthenticated, createProviderController.handle);
 
 providersRoutes.get("/", ensureAuthenticated, listProvidersController.handle);
 
@@ -28,7 +24,7 @@ providersRoutes.patch(
 );
 
 providersRoutes.delete(
-  "/delete/:id",
+  "/:id",
   ensureAuthenticated,
   deleteProviderController.handle
 );

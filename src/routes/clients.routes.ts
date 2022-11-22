@@ -1,5 +1,4 @@
 import { Router } from "express";
-import { request } from "http";
 
 import { CreateClientController } from "../controllers/clients/CreateClient/CreateClientController";
 import { DeleteClientController } from "../controllers/clients/DeleteClient/DeleteClientController";
@@ -14,11 +13,7 @@ const listClientsController = new ListClientsController();
 const editClientController = new EditClientController();
 const deleteClientController = new DeleteClientController();
 
-clientsRoutes.post(
-  "/create",
-  ensureAuthenticated,
-  createClientController.handle
-);
+clientsRoutes.post("/", ensureAuthenticated, createClientController.handle);
 
 clientsRoutes.get("/", ensureAuthenticated, listClientsController.handle);
 
@@ -29,7 +24,7 @@ clientsRoutes.patch(
 );
 
 clientsRoutes.delete(
-  "/delete/:id",
+  "/:id",
   ensureAuthenticated,
   deleteClientController.handle
 );

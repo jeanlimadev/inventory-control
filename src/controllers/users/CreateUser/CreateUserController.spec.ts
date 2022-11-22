@@ -5,7 +5,7 @@ import { app } from "../../../app";
 import { prismaClient } from "../../../database/prismaClient";
 
 describe("Create new user", async () => {
-  const responseToken = await request(app).post("/users/sessions").send({
+  const responseToken = await request(app).post("/users/auth").send({
     email: "admin@admin.com",
     password: "admin",
   });
@@ -14,7 +14,7 @@ describe("Create new user", async () => {
 
   it("should be able to create a new user", async () => {
     const response = await request(app)
-      .post("/users/create")
+      .post("/users")
       .send({
         name: "User Name Test",
         email: "user-test@email.com",
@@ -31,7 +31,7 @@ describe("Create new user", async () => {
 
   it("should not be able to create a new user with existent document number", async () => {
     await request(app)
-      .post("/users/create")
+      .post("/users")
       .send({
         name: "User Name Test",
         email: "user2-test@email.com",
@@ -42,7 +42,7 @@ describe("Create new user", async () => {
       });
 
     const response = await request(app)
-      .post("/users/create")
+      .post("/users")
       .send({
         name: "User Name Test",
         email: "user2-test@email.com",

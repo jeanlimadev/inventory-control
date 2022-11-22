@@ -4,7 +4,7 @@ import request from "supertest";
 import { app } from "../../../app";
 
 describe("Edit Provider", async () => {
-  const responseToken = await request(app).post("/users/sessions").send({
+  const responseToken = await request(app).post("/users/auth").send({
     email: "admin@admin.com",
     password: "admin",
   });
@@ -13,7 +13,7 @@ describe("Edit Provider", async () => {
 
   it("should be able to edit a registered provider", async () => {
     const provider = await request(app)
-      .post("/providers/create")
+      .post("/providers")
       .send({
         name: "Provider Test",
         document_number: "123456789",
@@ -37,7 +37,7 @@ describe("Edit Provider", async () => {
     expect(providerEdited.body.document_number).toBe("987654321");
 
     await request(app)
-      .delete(`/providers/delete/${providerEdited.body["id"]}`)
+      .delete(`/providers/${providerEdited.body["id"]}`)
       .set({
         Authorization: `Bearer ${token}`,
       });

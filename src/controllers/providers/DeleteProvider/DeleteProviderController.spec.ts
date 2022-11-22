@@ -4,7 +4,7 @@ import request from "supertest";
 import { app } from "../../../app";
 
 describe("Delete a provider", async () => {
-  const responseToken = await request(app).post("/users/sessions").send({
+  const responseToken = await request(app).post("/users/auth").send({
     email: "admin@admin.com",
     password: "admin",
   });
@@ -13,7 +13,7 @@ describe("Delete a provider", async () => {
 
   it("should be able to delete a provider", async () => {
     const providerResponse = await request(app)
-      .post("/providers/create")
+      .post("/providers")
       .send({
         name: "Test Name",
         document_number: "9999",
@@ -23,7 +23,7 @@ describe("Delete a provider", async () => {
       });
 
     const response = await request(app)
-      .delete(`/providers/delete/${providerResponse.body["id"]}`)
+      .delete(`/providers/${providerResponse.body["id"]}`)
       .set({
         Authorization: `Bearer ${token}`,
       });
@@ -33,7 +33,7 @@ describe("Delete a provider", async () => {
 
   it("should not be able to delete a non existent provider", async () => {
     const response = await request(app)
-      .delete(`/providers/delete/abc1234`)
+      .delete(`/providers/abc1234`)
       .set({
         Authorization: `Bearer ${token}`,
       });

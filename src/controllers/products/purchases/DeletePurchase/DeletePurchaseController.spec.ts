@@ -4,7 +4,7 @@ import request from "supertest";
 import { app } from "../../../../app";
 
 describe("Delete product purchases", async () => {
-  const responseToken = await request(app).post("/users/sessions").send({
+  const responseToken = await request(app).post("/users/auth").send({
     email: "admin@admin.com",
     password: "admin",
   });
@@ -13,7 +13,7 @@ describe("Delete product purchases", async () => {
 
   it("should be able to delete a existent purchase", async () => {
     const product = await request(app)
-      .post("/products/create")
+      .post("/products")
       .send({
         name: "Buy product test",
       })
@@ -22,7 +22,7 @@ describe("Delete product purchases", async () => {
       });
 
     const provider = await request(app)
-      .post("/providers/create")
+      .post("/providers")
       .send({
         name: "Buy provider test",
         document_number: "123456789",
@@ -52,13 +52,13 @@ describe("Delete product purchases", async () => {
     expect(deletePurchaseResponse.status).toBe(200);
 
     await request(app)
-      .delete(`/products/delete/${product.body["id"]}`)
+      .delete(`/products/${product.body["id"]}`)
       .set({
         Authorization: `Bearer ${token}`,
       });
 
     await request(app)
-      .delete(`/providers/delete/${provider.body["id"]}`)
+      .delete(`/providers/${provider.body["id"]}`)
       .set({
         Authorization: `Bearer ${token}`,
       });

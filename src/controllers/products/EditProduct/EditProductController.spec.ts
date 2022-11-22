@@ -4,7 +4,7 @@ import request from "supertest";
 import { app } from "../../../app";
 
 describe("Edit Product", async () => {
-  const responseToken = await request(app).post("/users/sessions").send({
+  const responseToken = await request(app).post("/users/auth").send({
     email: "admin@admin.com",
     password: "admin",
   });
@@ -13,7 +13,7 @@ describe("Edit Product", async () => {
 
   it("should be able to edit a registered product", async () => {
     const product = await request(app)
-      .post("/products/create")
+      .post("/products")
       .send({
         name: "Product Test",
       })
@@ -34,7 +34,7 @@ describe("Edit Product", async () => {
     expect(productEdited.body.name).toBe("Product Test Edited");
 
     await request(app)
-      .delete(`/products/delete/${productEdited.body["id"]}`)
+      .delete(`/products/${productEdited.body["id"]}`)
       .set({
         Authorization: `Bearer ${token}`,
       });

@@ -1,0 +1,12 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "@jeanlima.dev Inventory Control Documentation",
+    "description": "Description here.",
+    "version": "1.0.0",
+    "contact": {
+      "email": "jeanlimadev@gmail.com"
+    },
+    "paths": {}
+  }
+}

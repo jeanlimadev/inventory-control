@@ -4,7 +4,7 @@ import request from "supertest";
 import { app } from "../../../app";
 
 describe("List products", async () => {
-  const responseToken = await request(app).post("/users/sessions").send({
+  const responseToken = await request(app).post("/users/auth").send({
     email: "admin@admin.com",
     password: "admin",
   });
@@ -13,7 +13,7 @@ describe("List products", async () => {
 
   it("should be able to list all products", async () => {
     const product = await request(app)
-      .post("/products/create")
+      .post("/products")
       .send({
         name: "Test Name",
         document_number: "121212",
@@ -32,7 +32,7 @@ describe("List products", async () => {
     expect(response.body[0]).toHaveProperty("id");
 
     await request(app)
-      .delete(`/products/delete/${product.body["id"]}`)
+      .delete(`/products/${product.body["id"]}`)
       .set({
         Authorization: `Bearer ${token}`,
       });

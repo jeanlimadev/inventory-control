@@ -4,7 +4,7 @@ import request from "supertest";
 import { app } from "../../../app";
 
 describe("Edit Client", async () => {
-  const responseToken = await request(app).post("/users/sessions").send({
+  const responseToken = await request(app).post("/users/auth").send({
     email: "admin@admin.com",
     password: "admin",
   });
@@ -13,7 +13,7 @@ describe("Edit Client", async () => {
 
   it("should be able to edit a registered client", async () => {
     const client = await request(app)
-      .post("/clients/create")
+      .post("/clients")
       .send({
         name: "Client Test",
         document_number: "123456789",
@@ -37,7 +37,7 @@ describe("Edit Client", async () => {
     expect(clientEdited.body.document_number).toBe("987654321");
 
     await request(app)
-      .delete(`/clients/delete/${clientEdited.body["id"]}`)
+      .delete(`/clients/${clientEdited.body["id"]}`)
       .set({
         Authorization: `Bearer ${token}`,
       });

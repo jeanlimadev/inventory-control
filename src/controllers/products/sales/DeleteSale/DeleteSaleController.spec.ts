@@ -4,7 +4,7 @@ import request from "supertest";
 import { app } from "../../../../app";
 
 describe("Delete product sales", async () => {
-  const responseToken = await request(app).post("/users/sessions").send({
+  const responseToken = await request(app).post("/users/auth").send({
     email: "admin@admin.com",
     password: "admin",
   });
@@ -13,7 +13,7 @@ describe("Delete product sales", async () => {
 
   it("should be able to delete a existent sale", async () => {
     const product = await request(app)
-      .post("/products/create")
+      .post("/products")
       .send({
         name: "Sale product test",
       })
@@ -22,7 +22,7 @@ describe("Delete product sales", async () => {
       });
 
     const provider = await request(app)
-      .post("/providers/create")
+      .post("/providers")
       .send({
         name: "Sale provider test",
         document_number: "123456789",
@@ -44,7 +44,7 @@ describe("Delete product sales", async () => {
       });
 
     const client = await request(app)
-      .post("/clients/create")
+      .post("/clients")
       .send({
         name: "Sale client test",
         document_number: "123456789",
@@ -80,19 +80,19 @@ describe("Delete product sales", async () => {
       });
 
     await request(app)
-      .delete(`/products/delete/${product.body["id"]}`)
+      .delete(`/products/${product.body["id"]}`)
       .set({
         Authorization: `Bearer ${token}`,
       });
 
     await request(app)
-      .delete(`/clients/delete/${client.body["id"]}`)
+      .delete(`/clients/${client.body["id"]}`)
       .set({
         Authorization: `Bearer ${token}`,
       });
 
     await request(app)
-      .delete(`/providers/delete/${provider.body["id"]}`)
+      .delete(`/providers/${provider.body["id"]}`)
       .set({
         Authorization: `Bearer ${token}`,
       });
