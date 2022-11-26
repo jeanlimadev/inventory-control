@@ -22,7 +22,7 @@ describe("Edit Product", async () => {
       });
 
     const productEdited = await request(app)
-      .patch(`/products/edit/${product.body.id}`)
+      .patch(`/products/${product.body.id}`)
       .send({
         name: "Product Test Edited",
       })
@@ -42,7 +42,7 @@ describe("Edit Product", async () => {
 
   it("should not be able to edit a non registered product", async () => {
     const productEdited = await request(app)
-      .patch("/products/edit/a1b2c3d4e5f6")
+      .patch("/products/a1b2c3d4e5f6")
       .send({
         name: "Product Test Edited",
       })

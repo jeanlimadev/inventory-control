@@ -23,7 +23,7 @@ describe("Edit Client", async () => {
       });
 
     const clientEdited = await request(app)
-      .patch(`/clients/edit/${client.body.id}`)
+      .patch(`/clients/${client.body.id}`)
       .send({
         name: "Client Test Edited",
         document_number: "987654321",
@@ -45,7 +45,7 @@ describe("Edit Client", async () => {
 
   it("should not be able to edit a non registered client", async () => {
     const clientEdited = await request(app)
-      .patch("/clients/edit/a1b2c3d4e5f6")
+      .patch("/clients/a1b2c3d4e5f6")
       .send({
         name: "Client Test Edited",
         document_number: "987654321",

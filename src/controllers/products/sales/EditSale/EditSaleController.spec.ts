@@ -66,7 +66,7 @@ describe("Edit Sale", async () => {
       });
 
     const saleEdited = await request(app)
-      .patch(`/products/sell/edit/${sale.body.id}`)
+      .patch(`/products/sell/${sale.body.id}`)
       .send({
         amount: 100,
         cost: 20,
@@ -165,7 +165,7 @@ describe("Edit Sale", async () => {
       });
 
     const saleEdited = await request(app)
-      .patch(`/products/sell/edit/${sale.body.id}`)
+      .patch(`/products/sell/${sale.body.id}`)
       .send({
         amount: -1,
         cost: 20,
@@ -263,7 +263,7 @@ describe("Edit Sale", async () => {
       });
 
     const saleEdited = await request(app)
-      .patch(`/products/sell/edit/${sale.body.id}`)
+      .patch(`/products/sell/${sale.body.id}`)
       .send({
         amount: 110,
         cost: 20,
@@ -308,7 +308,7 @@ describe("Edit Sale", async () => {
 
   it("should not be able to edit a non registered sale", async () => {
     const saleEdited = await request(app)
-      .patch(`/products/sell/edit/a1b2c3d4e5f6`)
+      .patch(`/products/sell/a1b2c3d4e5f6`)
       .send({
         amount: 100,
         cost: 20,

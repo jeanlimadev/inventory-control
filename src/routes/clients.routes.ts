@@ -17,11 +17,7 @@ clientsRoutes.post("/", ensureAuthenticated, createClientController.handle);
 
 clientsRoutes.get("/", ensureAuthenticated, listClientsController.handle);
 
-clientsRoutes.patch(
-  "/edit/:id",
-  ensureAuthenticated,
-  editClientController.handle
-);
+clientsRoutes.patch("/:id", ensureAuthenticated, editClientController.handle);
 
 clientsRoutes.delete(
   "/:id",

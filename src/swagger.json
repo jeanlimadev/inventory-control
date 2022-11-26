@@ -1,12 +1,1201 @@
 {
   "openapi": "3.0.0",
   "info": {
-    "title": "@jeanlima.dev Inventory Control Documentation",
-    "description": "Description here.",
+    "title": "Inventory Control",
+    "description": "This is a documentation of inventory control.",
     "version": "1.0.0",
     "contact": {
-      "email": "jeanlimadev@gmail.com"
+      "email": "jeanlima.dev@gmail.com"
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
     },
-    "paths": {}
+    "schemas": {
+      "product": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "created_at": {
+            "type": "string"
+          }
+        }
+      },
+      "arrayOfProducts": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            },
+            "created_at": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "client": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "document_number": {
+            "type": "string"
+          },
+          "created_at": {
+            "type": "string"
+          }
+        }
+      },
+      "arrayOfClients": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            },
+            "document_number": {
+              "type": "string"
+            },
+            "created_at": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "provider": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "document_number": {
+            "type": "string"
+          },
+          "created_at": {
+            "type": "string"
+          }
+        }
+      },
+      "arrayOfProviders": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            },
+            "document_number": {
+              "type": "string"
+            },
+            "created_at": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "purchase": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "product_id": {
+            "type": "string"
+          },
+          "amount": {
+            "type": "number",
+            "format": "float"
+          },
+          "cost": {
+            "type": "number",
+            "format": "float"
+          },
+          "provider_id": {
+            "type": "string"
+          },
+          "created_at": {
+            "type": "string"
+          }
+        }
+      },
+      "arrayOfPurchases": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "product_id": {
+              "type": "string"
+            },
+            "amount": {
+              "type": "number",
+              "format": "float"
+            },
+            "cost": {
+              "type": "number",
+              "format": "float"
+            },
+            "provider_id": {
+              "type": "string"
+            },
+            "created_at": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "sale": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "product_id": {
+            "type": "string"
+          },
+          "amount": {
+            "type": "number",
+            "format": "float"
+          },
+          "cost": {
+            "type": "number",
+            "format": "float"
+          },
+          "client_id": {
+            "type": "string"
+          },
+          "created_at": {
+            "type": "string"
+          }
+        }
+      },
+      "arrayOfSales": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "product_id": {
+              "type": "string"
+            },
+            "amount": {
+              "type": "number",
+              "format": "float"
+            },
+            "cost": {
+              "type": "number",
+              "format": "float"
+            },
+            "client_id": {
+              "type": "string"
+            },
+            "created_at": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  },
+  "paths": {
+    "/users": {
+      "post": {
+        "tags": ["Users"],
+        "summary": "Create a User",
+        "description": "Create a new user",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "name": "User Name example",
+                  "email": "example@email.com",
+                  "password": "1234"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "500": {
+            "description": "User already exists"
+          }
+        }
+      }
+    },
+    "/users/auth": {
+      "post": {
+        "tags": ["Users"],
+        "summary": "Authenticate a User",
+        "description": "After authenticate, copy the token in the response data, click on the authorize button and paste it to authorize the use of others routes",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "email": "example@email.com",
+                  "password": "1234"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Success"
+          },
+          "500": {
+            "description": "Email or password incorrect!"
+          }
+        }
+      }
+    },
+    "/products": {
+      "post": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": ["Products"],
+        "summary": "Create a Product",
+        "description": "Create a new Product",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "name": "Product example"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/product"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Product already exists"
+          }
+        }
+      },
+      "get": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": ["Products"],
+        "summary": "List Products",
+        "description": "List all registered products",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/arrayOfProducts"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error"
+          }
+        }
+      }
+    },
+    "/products/{id}": {
+      "patch": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "string",
+              "required": true
+            }
+          }
+        ],
+        "tags": ["Products"],
+        "summary": "Edit a product",
+        "description": "Edit a registered product",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "name": "Product example edited"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/product"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Product not found"
+          }
+        }
+      },
+      "delete": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "string",
+              "required": true
+            }
+          }
+        ],
+        "tags": ["Products"],
+        "summary": "Delete a product",
+        "description": "Delete a registered product",
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "404": {
+            "description": "Product not found"
+          }
+        }
+      }
+    },
+    "/clients": {
+      "post": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": ["Clients"],
+        "summary": "Create a Client",
+        "description": "Create a new Client",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "document_number": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "name": "CLient example",
+                  "document_number": "1234"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/client"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Client already exists"
+          }
+        }
+      },
+      "get": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": ["Clients"],
+        "summary": "List Clients",
+        "description": "List all registered clients",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/arrayOfClients"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error"
+          }
+        }
+      }
+    },
+    "/clients/{id}": {
+      "patch": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "string",
+              "required": true
+            }
+          }
+        ],
+        "tags": ["Clients"],
+        "summary": "Edit a client",
+        "description": "Edit a registered client",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "document_number": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "name": "Client example edited",
+                  "document_number": "4321"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/client"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Client not found"
+          }
+        }
+      },
+      "delete": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "string",
+              "required": true
+            }
+          }
+        ],
+        "tags": ["Clients"],
+        "summary": "Delete a client",
+        "description": "Delete a registered client",
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "404": {
+            "description": "Client not found"
+          }
+        }
+      }
+    },
+    "/providers": {
+      "post": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": ["Providers"],
+        "summary": "Create a Provider",
+        "description": "Create a new Provider",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "document_number": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "name": "Provider example",
+                  "document_number": "1234"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/provider"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Provider already exists"
+          }
+        }
+      },
+      "get": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": ["Providers"],
+        "summary": "List Providers",
+        "description": "List all registered Providers",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/arrayOfProviders"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error"
+          }
+        }
+      }
+    },
+    "/providers/{id}": {
+      "patch": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "string",
+              "required": true
+            }
+          }
+        ],
+        "tags": ["Providers"],
+        "summary": "Edit a provider",
+        "description": "Edit a registered provider",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "document_number": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "name": "Provider example edited",
+                  "document_number": "4321"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/provider"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Provider not found"
+          }
+        }
+      },
+      "delete": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "string",
+              "required": true
+            }
+          }
+        ],
+        "tags": ["Providers"],
+        "summary": "Delete a provider",
+        "description": "Delete a registered provider",
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "404": {
+            "description": "Provider not found"
+          }
+        }
+      }
+    },
+    "/products/purchase": {
+      "post": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": ["Purchases"],
+        "summary": "Create a Purchase",
+        "description": "Create a new Purchase",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "product_id": {
+                    "type": "string"
+                  },
+                  "amount": {
+                    "type": "number",
+                    "format": "float"
+                  },
+                  "cost": {
+                    "type": "number",
+                    "format": "float"
+                  },
+                  "provider_id": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "product_id": "a1b2c3d4e5f6",
+                  "amount": 50,
+                  "cost": 30,
+                  "provider_id": "g7h8i9j10k11"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/purchase"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Provider or Product not found"
+          }
+        }
+      }
+    },
+    "/products/purchase/filter/{provider_id}": {
+      "get": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "provider_id",
+            "schema": {
+              "type": "string",
+              "required": true
+            }
+          },
+          {
+            "in": "query",
+            "name": "initial_date",
+            "description": "insert on format YYYY-MM-DD",
+            "schema": {
+              "type": "string",
+              "required": false
+            }
+          },
+          {
+            "in": "query",
+            "name": "end_date",
+            "description": "insert on format YYYY-MM-DD",
+            "schema": {
+              "type": "string",
+              "required": false
+            }
+          }
+        ],
+        "tags": ["Purchases"],
+        "summary": "Filter Purchases",
+        "description": "Filter an existent Purchases",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/arrayOfPurchases"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Provider or Product not found"
+          }
+        }
+      }
+    },
+    "/products/purchase/{id}": {
+      "patch": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "string",
+              "required": true
+            }
+          }
+        ],
+        "tags": ["Purchases"],
+        "summary": "Edit a Purchase",
+        "description": "Edit a existent Purchase",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "product_id": {
+                    "type": "string"
+                  },
+                  "amount": {
+                    "type": "number",
+                    "format": "float"
+                  },
+                  "cost": {
+                    "type": "number",
+                    "format": "float"
+                  },
+                  "provider_id": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "product_id": "a1b2c3d4e5f6",
+                  "amount": 50,
+                  "cost": 30,
+                  "provider_id": "g7h8i9j10k11"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/purchase"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Provider or Product not found"
+          }
+        }
+      },
+      "delete": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "string",
+              "required": true
+            }
+          }
+        ],
+        "tags": ["Purchases"],
+        "summary": "Delete a Purchase",
+        "description": "Delete a existent Purchase",
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "404": {
+            "description": "Purchase not found"
+          }
+        }
+      }
+    },
+    "/products/sell": {
+      "post": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": ["Sales"],
+        "summary": "Create a Sale",
+        "description": "Create a new Sale",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "product_id": {
+                    "type": "string"
+                  },
+                  "amount": {
+                    "type": "number",
+                    "format": "float"
+                  },
+                  "cost": {
+                    "type": "number",
+                    "format": "float"
+                  },
+                  "client_id": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "product_id": "a1b2c3d4e5f6",
+                  "amount": 50,
+                  "cost": 30,
+                  "client_id": "g7h8i9j10k11"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/sale"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Client or Product not found"
+          },
+          "400": {
+            "description": "Amount greater than available in stock"
+          }
+        }
+      }
+    },
+    "/products/sell/filter/{client_id}": {
+      "get": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "client_id",
+            "schema": {
+              "type": "string",
+              "required": true
+            }
+          },
+          {
+            "in": "query",
+            "name": "initial_date",
+            "description": "insert on format YYYY-MM-DD",
+            "schema": {
+              "type": "string",
+              "required": false
+            }
+          },
+          {
+            "in": "query",
+            "name": "end_date",
+            "description": "insert on format YYYY-MM-DD",
+            "schema": {
+              "type": "string",
+              "required": false
+            }
+          }
+        ],
+        "tags": ["Sales"],
+        "summary": "Filter Sales",
+        "description": "Filter an existent Sales",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/arrayOfSales"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Client or Product not found"
+          }
+        }
+      }
+    },
+    "/products/sell/{id}": {
+      "patch": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "string",
+              "required": true
+            }
+          }
+        ],
+        "tags": ["Sales"],
+        "summary": "Edit a Sale",
+        "description": "Edit a existent Sale",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "product_id": {
+                    "type": "string"
+                  },
+                  "amount": {
+                    "type": "number",
+                    "format": "float"
+                  },
+                  "cost": {
+                    "type": "number",
+                    "format": "float"
+                  },
+                  "client_id": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "product_id": "a1b2c3d4e5f6",
+                  "amount": 50,
+                  "cost": 30,
+                  "client_id": "g7h8i9j10k11"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/sale"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Provider or Product not found"
+          }
+        }
+      },
+      "delete": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "string",
+              "required": true
+            }
+          }
+        ],
+        "tags": ["Sales"],
+        "summary": "Delete a Sale",
+        "description": "Delete a existent Sale",
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "404": {
+            "description": "Sale not found"
+          }
+        }
+      }
+    }
   }
 }

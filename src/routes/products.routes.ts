@@ -34,11 +34,7 @@ productsRoutes.post("/", ensureAuthenticated, createProductController.handle);
 
 productsRoutes.get("/", ensureAuthenticated, listProductsController.handle);
 
-productsRoutes.patch(
-  "/edit/:id",
-  ensureAuthenticated,
-  editProductController.handle
-);
+productsRoutes.patch("/:id", ensureAuthenticated, editProductController.handle);
 
 productsRoutes.delete(
   "/:id",
@@ -53,7 +49,7 @@ productsRoutes.post(
 );
 
 productsRoutes.patch(
-  "/purchase/edit/:id",
+  "/purchase/:id",
   ensureAuthenticated,
   editPurchaseController.handle
 );
@@ -77,7 +73,7 @@ productsRoutes.post(
 );
 
 productsRoutes.patch(
-  "/sell/edit/:id",
+  "/sell/:id",
   ensureAuthenticated,
   editSaleController.handle
 );

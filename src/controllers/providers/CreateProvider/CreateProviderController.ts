@@ -23,7 +23,7 @@ class CreateProviderController {
         },
       });
 
-      return response.json(provider);
+      return response.status(201).json(provider);
     } catch (error) {
       return response.status(400).json({ error: "Verify your request data." });
     }

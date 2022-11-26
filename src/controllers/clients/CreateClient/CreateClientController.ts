@@ -23,7 +23,7 @@ class CreateClientController {
         },
       });
 
-      return response.json(client);
+      return response.status(201).json(client);
     } catch (error) {
       return response.status(400).json({ error: "Verify your request data." });
     }

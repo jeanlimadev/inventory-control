@@ -18,7 +18,7 @@ providersRoutes.post("/", ensureAuthenticated, createProviderController.handle);
 providersRoutes.get("/", ensureAuthenticated, listProvidersController.handle);
 
 providersRoutes.patch(
-  "/edit/:id",
+  "/:id",
   ensureAuthenticated,
   editProviderController.handle
 );

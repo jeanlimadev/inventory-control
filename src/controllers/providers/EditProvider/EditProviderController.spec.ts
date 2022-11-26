@@ -23,7 +23,7 @@ describe("Edit Provider", async () => {
       });
 
     const providerEdited = await request(app)
-      .patch(`/providers/edit/${provider.body.id}`)
+      .patch(`/providers/${provider.body.id}`)
       .send({
         name: "Provider Test Edited",
         document_number: "987654321",
@@ -45,7 +45,7 @@ describe("Edit Provider", async () => {
 
   it("should not be able to edit a non registered provider", async () => {
     const providerEdited = await request(app)
-      .patch("/providers/edit/a1b2c3d4e5f6")
+      .patch("/providers/a1b2c3d4e5f6")
       .send({
         name: "Provider Test Edited",
         document_number: "987654321",

@@ -22,7 +22,7 @@ class CreateProductController {
         },
       });
 
-      return response.json(product);
+      return response.status(201).json(product);
     } catch (error) {
       return response.status(400).json({ error: "Verify your request data." });
     }
