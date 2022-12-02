@@ -46,6 +46,16 @@ And finally, you need to run the docker compose command.
     
 ## Running tests
 
+Before run the tests, you need to run this command
+
+```bash
+  yarn seed:admin
+  
+  or
+  
+  npm run seed:admin
+```
+
 To run the tests, use the command
 
 ```bash
