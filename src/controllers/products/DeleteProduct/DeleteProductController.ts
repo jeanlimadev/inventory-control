@@ -6,7 +6,7 @@ class DeleteProductController {
     try {
       const { id } = request.params;
 
-      const productExists = await prismaClient.product.findFirst({
+      const productExists = await prismaClient.products.findFirst({
         where: {
           id,
         },
@@ -16,7 +16,7 @@ class DeleteProductController {
         return response.status(404).json({ error: "Product not found!" });
       }
 
-      await prismaClient.product.delete({
+      await prismaClient.products.delete({
         where: {
           id,
         },

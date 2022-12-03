@@ -18,7 +18,7 @@ class AuthenticateUserController {
     try {
       const { email, password } = request.body;
 
-      const user = await prismaClient.user.findFirst({
+      const user = await prismaClient.users.findFirst({
         where: {
           email,
         },

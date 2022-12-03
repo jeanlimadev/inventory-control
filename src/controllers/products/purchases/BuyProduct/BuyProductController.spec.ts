@@ -11,7 +11,7 @@ describe("Buy Product", async () => {
 
   const { token } = responseToken.body;
 
-  it("should be able to buy a registered product from a registered provider", async () => {
+  it("should be able to buy a registered product from a registered supplier", async () => {
     const product = await request(app)
       .post("/products")
       .send({
@@ -21,10 +21,10 @@ describe("Buy Product", async () => {
         Authorization: `Bearer ${token}`,
       });
 
-    const provider = await request(app)
-      .post("/providers")
+    const supplier = await request(app)
+      .post("/suppliers")
       .send({
-        name: "Buy provider test",
+        name: "Buy supplier test",
         document_number: "123456789",
       })
       .set({
@@ -37,7 +37,7 @@ describe("Buy Product", async () => {
         product_id: product.body.id,
         amount: 100,
         cost: 30,
-        provider_id: provider.body.id,
+        supplier_id: supplier.body.id,
       })
       .set({
         Authorization: `Bearer ${token}`,
@@ -59,17 +59,17 @@ describe("Buy Product", async () => {
       });
 
     await request(app)
-      .delete(`/providers/${provider.body["id"]}`)
+      .delete(`/suppliers/${supplier.body["id"]}`)
       .set({
         Authorization: `Bearer ${token}`,
       });
   });
 
-  it("should not be able to buy a registered product from a non registered provider", async () => {
-    const provider = await request(app)
-      .post("/providers")
+  it("should not be able to buy a registered product from a non registered supplier", async () => {
+    const supplier = await request(app)
+      .post("/suppliers")
       .send({
-        name: "Buy provider test",
+        name: "Buy supplier test",
         document_number: "123456789",
       })
       .set({
@@ -82,7 +82,7 @@ describe("Buy Product", async () => {
         product_id: "a1b2c3d4e5",
         amount: 100,
         cost: 30,
-        provider_id: provider.body.id,
+        supplier_id: supplier.body.id,
       })
       .set({
         Authorization: `Bearer ${token}`,
@@ -92,13 +92,13 @@ describe("Buy Product", async () => {
     expect(purchase.body).toHaveProperty("error");
 
     await request(app)
-      .delete(`/providers/${provider.body["id"]}`)
+      .delete(`/suppliers/${supplier.body["id"]}`)
       .set({
         Authorization: `Bearer ${token}`,
       });
   });
 
-  it("should not be able to buy a non registered product from a registered provider", async () => {
+  it("should not be able to buy a non registered product from a registered supplier", async () => {
     const product = await request(app)
       .post("/products")
       .send({
@@ -114,7 +114,7 @@ describe("Buy Product", async () => {
         product_id: product.body.id,
         amount: 100,
         cost: 30,
-        provider_id: "a1b2c3d4e5",
+        supplier_id: "a1b2c3d4e5",
       })
       .set({
         Authorization: `Bearer ${token}`,

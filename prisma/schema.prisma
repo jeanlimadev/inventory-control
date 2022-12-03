@@ -11,31 +11,31 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model product {
-  id            String          @id @default(uuid())
-  name          String          @unique
-  created_at    DateTime        @default(now())
-  buy_products  buy_products[]
-  sell_products sell_products[]
+model products {
+  id         String      @id @default(uuid())
+  name       String      @unique
+  created_at DateTime    @default(now())
+  purchases  purchases[]
+  sales      sales[]
 }
 
-model client {
-  id              String          @id @default(uuid())
+model customers {
+  id              String   @id @default(uuid())
   name            String
-  document_number String          @unique
-  created_at      DateTime        @default(now())
-  sell_products   sell_products[]
+  document_number String   @unique
+  created_at      DateTime @default(now())
+  sales           sales[]
 }
 
-model provider {
-  id              String         @id @default(uuid())
+model suppliers {
+  id              String      @id @default(uuid())
   name            String
-  document_number String         @unique
-  created_at      DateTime       @default(now())
-  buy_products    buy_products[]
+  document_number String      @unique
+  created_at      DateTime    @default(now())
+  purchases       purchases[]
 }
 
-model user {
+model users {
   id         String   @id @default(uuid())
   name       String
   email      String   @unique
@@ -44,24 +44,24 @@ model user {
   created_at DateTime @default(now())
 }
 
-model buy_products {
-  id          String   @id @default(uuid())
-  id_product  product  @relation(fields: [product_id], references: [id])
+model purchases {
+  id          String    @id @default(uuid())
+  id_product  products  @relation(fields: [product_id], references: [id])
   product_id  String
   amount      Float
   cost        Float
-  id_provider provider @relation(fields: [provider_id], references: [id])
-  provider_id String
-  created_at  DateTime @default(now())
+  id_supplier suppliers @relation(fields: [supplier_id], references: [id])
+  supplier_id String
+  created_at  DateTime  @default(now())
 }
 
-model sell_products {
-  id          String   @id @default(uuid())
-  id_product  product  @relation(fields: [product_id], references: [id])
+model sales {
+  id          String    @id @default(uuid())
+  id_product  products  @relation(fields: [product_id], references: [id])
   product_id  String
   amount      Float
   cost        Float
-  id_provider client   @relation(fields: [client_id], references: [id])
-  client_id   String
-  created_at  DateTime @default(now())
+  id_supplier customers @relation(fields: [customer_id], references: [id])
+  customer_id String
+  created_at  DateTime  @default(now())
 }

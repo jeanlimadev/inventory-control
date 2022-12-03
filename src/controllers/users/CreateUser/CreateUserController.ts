@@ -9,7 +9,7 @@ class CreateUserController {
 
       const passwordHash = await hash(password, 8);
 
-      const userAlreadyExists = await prismaClient.user.findFirst({
+      const userAlreadyExists = await prismaClient.users.findFirst({
         where: {
           email,
         },
@@ -19,7 +19,7 @@ class CreateUserController {
         return response.status(500).json({ error: "user already exists!" });
       }
 
-      await prismaClient.user.create({
+      await prismaClient.users.create({
         data: {
           name,
           email,

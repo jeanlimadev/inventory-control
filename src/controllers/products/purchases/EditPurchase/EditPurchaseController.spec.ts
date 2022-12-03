@@ -12,10 +12,10 @@ describe("Edit Purchase", async () => {
   const { token } = responseToken.body;
 
   it("should be able to edit a registered purchase", async () => {
-    const provider = await request(app)
-      .post("/providers")
+    const supplier = await request(app)
+      .post("/suppliers")
       .send({
-        name: "Provider Test",
+        name: "supplier Test",
         document_number: "123456789",
       })
       .set({
@@ -37,7 +37,7 @@ describe("Edit Purchase", async () => {
         product_id: product.body.id,
         amount: 50,
         cost: 30,
-        provider_id: provider.body.id,
+        supplier_id: supplier.body.id,
       })
       .set({
         Authorization: `Bearer ${token}`,
@@ -70,17 +70,17 @@ describe("Edit Purchase", async () => {
       });
 
     await request(app)
-      .delete(`/providers/${provider.body["id"]}`)
+      .delete(`/suppliers/${supplier.body["id"]}`)
       .set({
         Authorization: `Bearer ${token}`,
       });
   });
 
   it("should not be able to edit a registered purchase with less than allowed quantity", async () => {
-    const provider = await request(app)
-      .post("/providers")
+    const supplier = await request(app)
+      .post("/suppliers")
       .send({
-        name: "Provider Test",
+        name: "supplier Test",
         document_number: "12345678",
       })
       .set({
@@ -102,7 +102,7 @@ describe("Edit Purchase", async () => {
         product_id: product.body.id,
         amount: 50,
         cost: 30,
-        provider_id: provider.body.id,
+        supplier_id: supplier.body.id,
       })
       .set({
         Authorization: `Bearer ${token}`,
@@ -134,7 +134,7 @@ describe("Edit Purchase", async () => {
       });
 
     await request(app)
-      .delete(`/providers/${provider.body["id"]}`)
+      .delete(`/suppliers/${supplier.body["id"]}`)
       .set({
         Authorization: `Bearer ${token}`,
       });

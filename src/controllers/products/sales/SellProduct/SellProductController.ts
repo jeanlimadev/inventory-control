@@ -6,9 +6,9 @@ import { CheckInventoryAvailability } from "../../../../utils/CheckInventoryAvai
 class SellProductController {
   async handle(request: Request, response: Response): Promise<Response> {
     try {
-      const { product_id, amount, cost, client_id } = request.body;
+      const { product_id, amount, cost, customer_id } = request.body;
 
-      const productExists = await prismaClient.product.findFirst({
+      const productExists = await prismaClient.products.findFirst({
         where: {
           id: product_id,
         },
@@ -18,14 +18,14 @@ class SellProductController {
         return response.status(404).json({ error: "Product not found!" });
       }
 
-      const clientExists = await prismaClient.client.findFirst({
+      const customerExists = await prismaClient.customers.findFirst({
         where: {
-          id: client_id,
+          id: customer_id,
         },
       });
 
-      if (!clientExists) {
-        return response.status(404).json({ error: "Client not found!" });
+      if (!customerExists) {
+        return response.status(404).json({ error: "Customer not found!" });
       }
 
       if (amount <= 0) {
@@ -47,12 +47,12 @@ class SellProductController {
           .json({ error: "Amount greater than available in stock!" });
       }
 
-      const purchase = await prismaClient.sell_products.create({
+      const purchase = await prismaClient.sales.create({
         data: {
           product_id,
           amount,
           cost,
-          client_id,
+          customer_id,
         },
       });
 

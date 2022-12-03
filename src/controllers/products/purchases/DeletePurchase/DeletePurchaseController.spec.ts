@@ -21,10 +21,10 @@ describe("Delete product purchases", async () => {
         Authorization: `Bearer ${token}`,
       });
 
-    const provider = await request(app)
-      .post("/providers")
+    const supplier = await request(app)
+      .post("/suppliers")
       .send({
-        name: "Buy provider test",
+        name: "Buy supplier test",
         document_number: "123456789",
       })
       .set({
@@ -37,7 +37,7 @@ describe("Delete product purchases", async () => {
         product_id: product.body.id,
         amount: 100,
         cost: 30,
-        provider_id: provider.body.id,
+        supplier_id: supplier.body.id,
       })
       .set({
         Authorization: `Bearer ${token}`,
@@ -58,7 +58,7 @@ describe("Delete product purchases", async () => {
       });
 
     await request(app)
-      .delete(`/providers/${provider.body["id"]}`)
+      .delete(`/suppliers/${supplier.body["id"]}`)
       .set({
         Authorization: `Bearer ${token}`,
       });

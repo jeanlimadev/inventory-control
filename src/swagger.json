@@ -48,7 +48,7 @@
           }
         }
       },
-      "client": {
+      "customer": {
         "type": "object",
         "properties": {
           "id": {
@@ -65,7 +65,7 @@
           }
         }
       },
-      "arrayOfClients": {
+      "arrayOfCustomers": {
         "type": "array",
         "items": {
           "type": "object",
@@ -85,7 +85,7 @@
           }
         }
       },
-      "provider": {
+      "supplier": {
         "type": "object",
         "properties": {
           "id": {
@@ -102,7 +102,7 @@
           }
         }
       },
-      "arrayOfProviders": {
+      "arrayOfSuppliers": {
         "type": "array",
         "items": {
           "type": "object",
@@ -139,7 +139,7 @@
             "type": "number",
             "format": "float"
           },
-          "provider_id": {
+          "supplier_id": {
             "type": "string"
           },
           "created_at": {
@@ -166,7 +166,7 @@
               "type": "number",
               "format": "float"
             },
-            "provider_id": {
+            "supplier_id": {
               "type": "string"
             },
             "created_at": {
@@ -192,7 +192,7 @@
             "type": "number",
             "format": "float"
           },
-          "client_id": {
+          "customer_id": {
             "type": "string"
           },
           "created_at": {
@@ -219,7 +219,7 @@
               "type": "number",
               "format": "float"
             },
-            "client_id": {
+            "customer_id": {
               "type": "string"
             },
             "created_at": {
@@ -458,16 +458,16 @@
         }
       }
     },
-    "/clients": {
+    "/customers": {
       "post": {
         "security": [
           {
             "bearerAuth": []
           }
         ],
-        "tags": ["Clients"],
-        "summary": "Create a Client",
-        "description": "Create a new Client",
+        "tags": ["Customers"],
+        "summary": "Create a customer",
+        "description": "Create a new customer",
         "requestBody": {
           "content": {
             "application/json": {
@@ -482,7 +482,7 @@
                   }
                 },
                 "example": {
-                  "name": "CLient example",
+                  "name": "customer example",
                   "document_number": "1234"
                 }
               }
@@ -495,13 +495,13 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/client"
+                  "$ref": "#/components/schemas/customer"
                 }
               }
             }
           },
           "500": {
-            "description": "Client already exists"
+            "description": "customer already exists"
           }
         }
       },
@@ -511,16 +511,16 @@
             "bearerAuth": []
           }
         ],
-        "tags": ["Clients"],
-        "summary": "List Clients",
-        "description": "List all registered clients",
+        "tags": ["Customers"],
+        "summary": "List customers",
+        "description": "List all registered customers",
         "responses": {
           "200": {
             "description": "Success",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/arrayOfClients"
+                  "$ref": "#/components/schemas/arrayOfCustomers"
                 }
               }
             }
@@ -531,7 +531,7 @@
         }
       }
     },
-    "/clients/{id}": {
+    "/customers/{id}": {
       "patch": {
         "security": [
           {
@@ -548,9 +548,9 @@
             }
           }
         ],
-        "tags": ["Clients"],
-        "summary": "Edit a client",
-        "description": "Edit a registered client",
+        "tags": ["Customers"],
+        "summary": "Edit a customer",
+        "description": "Edit a registered customer",
         "requestBody": {
           "content": {
             "application/json": {
@@ -565,7 +565,7 @@
                   }
                 },
                 "example": {
-                  "name": "Client example edited",
+                  "name": "customer example edited",
                   "document_number": "4321"
                 }
               }
@@ -578,13 +578,13 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/client"
+                  "$ref": "#/components/schemas/customer"
                 }
               }
             }
           },
           "404": {
-            "description": "Client not found"
+            "description": "customer not found"
           }
         }
       },
@@ -604,29 +604,29 @@
             }
           }
         ],
-        "tags": ["Clients"],
-        "summary": "Delete a client",
-        "description": "Delete a registered client",
+        "tags": ["Customers"],
+        "summary": "Delete a customer",
+        "description": "Delete a registered customer",
         "responses": {
           "200": {
             "description": "Success"
           },
           "404": {
-            "description": "Client not found"
+            "description": "customer not found"
           }
         }
       }
     },
-    "/providers": {
+    "/suppliers": {
       "post": {
         "security": [
           {
             "bearerAuth": []
           }
         ],
-        "tags": ["Providers"],
-        "summary": "Create a Provider",
-        "description": "Create a new Provider",
+        "tags": ["Suppliers"],
+        "summary": "Create a supplier",
+        "description": "Create a new supplier",
         "requestBody": {
           "content": {
             "application/json": {
@@ -641,7 +641,7 @@
                   }
                 },
                 "example": {
-                  "name": "Provider example",
+                  "name": "supplier example",
                   "document_number": "1234"
                 }
               }
@@ -654,13 +654,13 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/provider"
+                  "$ref": "#/components/schemas/supplier"
                 }
               }
             }
           },
           "500": {
-            "description": "Provider already exists"
+            "description": "supplier already exists"
           }
         }
       },
@@ -670,16 +670,16 @@
             "bearerAuth": []
           }
         ],
-        "tags": ["Providers"],
-        "summary": "List Providers",
-        "description": "List all registered Providers",
+        "tags": ["Suppliers"],
+        "summary": "List suppliers",
+        "description": "List all registered suppliers",
         "responses": {
           "200": {
             "description": "Success",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/arrayOfProviders"
+                  "$ref": "#/components/schemas/arrayOfSuppliers"
                 }
               }
             }
@@ -690,7 +690,7 @@
         }
       }
     },
-    "/providers/{id}": {
+    "/suppliers/{id}": {
       "patch": {
         "security": [
           {
@@ -707,9 +707,9 @@
             }
           }
         ],
-        "tags": ["Providers"],
-        "summary": "Edit a provider",
-        "description": "Edit a registered provider",
+        "tags": ["Suppliers"],
+        "summary": "Edit a supplier",
+        "description": "Edit a registered supplier",
         "requestBody": {
           "content": {
             "application/json": {
@@ -724,7 +724,7 @@
                   }
                 },
                 "example": {
-                  "name": "Provider example edited",
+                  "name": "supplier example edited",
                   "document_number": "4321"
                 }
               }
@@ -737,13 +737,13 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/provider"
+                  "$ref": "#/components/schemas/supplier"
                 }
               }
             }
           },
           "404": {
-            "description": "Provider not found"
+            "description": "supplier not found"
           }
         }
       },
@@ -763,15 +763,15 @@
             }
           }
         ],
-        "tags": ["Providers"],
-        "summary": "Delete a provider",
-        "description": "Delete a registered provider",
+        "tags": ["Suppliers"],
+        "summary": "Delete a supplier",
+        "description": "Delete a registered supplier",
         "responses": {
           "200": {
             "description": "Success"
           },
           "404": {
-            "description": "Provider not found"
+            "description": "supplier not found"
           }
         }
       }
@@ -803,7 +803,7 @@
                     "type": "number",
                     "format": "float"
                   },
-                  "provider_id": {
+                  "supplier_id": {
                     "type": "string"
                   }
                 },
@@ -811,7 +811,7 @@
                   "product_id": "a1b2c3d4e5f6",
                   "amount": 50,
                   "cost": 30,
-                  "provider_id": "g7h8i9j10k11"
+                  "supplier_id": "g7h8i9j10k11"
                 }
               }
             }
@@ -829,12 +829,12 @@
             }
           },
           "404": {
-            "description": "Provider or Product not found"
+            "description": "supplier or Product not found"
           }
         }
       }
     },
-    "/products/purchase/filter/{provider_id}": {
+    "/products/purchase/filter/{supplier_id}": {
       "get": {
         "security": [
           {
@@ -844,7 +844,7 @@
         "parameters": [
           {
             "in": "path",
-            "name": "provider_id",
+            "name": "supplier_id",
             "schema": {
               "type": "string",
               "required": true
@@ -884,7 +884,7 @@
             }
           },
           "404": {
-            "description": "Provider or Product not found"
+            "description": "supplier or Product not found"
           }
         }
       }
@@ -926,7 +926,7 @@
                     "type": "number",
                     "format": "float"
                   },
-                  "provider_id": {
+                  "supplier_id": {
                     "type": "string"
                   }
                 },
@@ -934,7 +934,7 @@
                   "product_id": "a1b2c3d4e5f6",
                   "amount": 50,
                   "cost": 30,
-                  "provider_id": "g7h8i9j10k11"
+                  "supplier_id": "g7h8i9j10k11"
                 }
               }
             }
@@ -952,7 +952,7 @@
             }
           },
           "404": {
-            "description": "Provider or Product not found"
+            "description": "supplier or Product not found"
           }
         }
       },
@@ -1012,7 +1012,7 @@
                     "type": "number",
                     "format": "float"
                   },
-                  "client_id": {
+                  "customer_id": {
                     "type": "string"
                   }
                 },
@@ -1020,7 +1020,7 @@
                   "product_id": "a1b2c3d4e5f6",
                   "amount": 50,
                   "cost": 30,
-                  "client_id": "g7h8i9j10k11"
+                  "customer_id": "g7h8i9j10k11"
                 }
               }
             }
@@ -1038,7 +1038,7 @@
             }
           },
           "404": {
-            "description": "Client or Product not found"
+            "description": "customer or Product not found"
           },
           "400": {
             "description": "Amount greater than available in stock"
@@ -1046,7 +1046,7 @@
         }
       }
     },
-    "/products/sell/filter/{client_id}": {
+    "/products/sell/filter/{customer_id}": {
       "get": {
         "security": [
           {
@@ -1056,7 +1056,7 @@
         "parameters": [
           {
             "in": "path",
-            "name": "client_id",
+            "name": "customer_id",
             "schema": {
               "type": "string",
               "required": true
@@ -1096,7 +1096,7 @@
             }
           },
           "404": {
-            "description": "Client or Product not found"
+            "description": "customer or Product not found"
           }
         }
       }
@@ -1138,7 +1138,7 @@
                     "type": "number",
                     "format": "float"
                   },
-                  "client_id": {
+                  "customer_id": {
                     "type": "string"
                   }
                 },
@@ -1146,7 +1146,7 @@
                   "product_id": "a1b2c3d4e5f6",
                   "amount": 50,
                   "cost": 30,
-                  "client_id": "g7h8i9j10k11"
+                  "customer_id": "g7h8i9j10k11"
                 }
               }
             }
@@ -1164,7 +1164,7 @@
             }
           },
           "404": {
-            "description": "Provider or Product not found"
+            "description": "supplier or Product not found"
           }
         }
       },

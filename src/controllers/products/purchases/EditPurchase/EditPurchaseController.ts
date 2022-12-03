@@ -6,9 +6,9 @@ class EditPurchaseController {
   async handle(request: Request, response: Response): Promise<Response> {
     try {
       const { id } = request.params;
-      const { product_id, amount, cost, provider_id } = request.body;
+      const { product_id, amount, cost, supplier_id } = request.body;
 
-      const purchase = await prismaClient.buy_products.findFirst({
+      const purchase = await prismaClient.purchases.findFirst({
         where: {
           id,
         },
@@ -22,7 +22,7 @@ class EditPurchaseController {
         return response.status(400).json({ error: "invalid amount value!" });
       }
 
-      const purchaseEdited = await prismaClient.buy_products.update({
+      const purchaseEdited = await prismaClient.purchases.update({
         where: {
           id,
         },
@@ -30,7 +30,7 @@ class EditPurchaseController {
           product_id,
           amount,
           cost,
-          provider_id,
+          supplier_id,
         },
       });
 

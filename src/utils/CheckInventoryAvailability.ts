@@ -4,7 +4,7 @@ export async function CheckInventoryAvailability(
   product_id: string,
   amount: Number
 ): Promise<Boolean> {
-  const purchasesList = await prismaClient.buy_products.findMany({
+  const purchasesList = await prismaClient.purchases.findMany({
     where: {
       product_id,
     },
@@ -14,7 +14,7 @@ export async function CheckInventoryAvailability(
     return (acc += curr.amount);
   }, 0);
 
-  const sellsList = await prismaClient.sell_products.findMany({
+  const sellsList = await prismaClient.sales.findMany({
     where: {
       product_id,
     },

@@ -4,9 +4,9 @@ import { prismaClient } from "../../../../database/prismaClient";
 class BuyProductController {
   async handle(request: Request, response: Response): Promise<Response> {
     try {
-      const { product_id, amount, cost, provider_id } = request.body;
+      const { product_id, amount, cost, supplier_id } = request.body;
 
-      const productExists = await prismaClient.product.findFirst({
+      const productExists = await prismaClient.products.findFirst({
         where: {
           id: product_id,
         },
@@ -16,14 +16,14 @@ class BuyProductController {
         return response.status(404).json({ error: "Product not found!" });
       }
 
-      const providerExists = await prismaClient.provider.findFirst({
+      const supplierExists = await prismaClient.suppliers.findFirst({
         where: {
-          id: provider_id,
+          id: supplier_id,
         },
       });
 
-      if (!providerExists) {
-        return response.status(404).json({ error: "Provider not found!" });
+      if (!supplierExists) {
+        return response.status(404).json({ error: "Supplier not found!" });
       }
 
       if (amount <= 0) {
@@ -34,12 +34,12 @@ class BuyProductController {
         return response.status(400).json({ error: "Invalid cost value!" });
       }
 
-      const purchase = await prismaClient.buy_products.create({
+      const purchase = await prismaClient.purchases.create({
         data: {
           product_id,
           amount,
           cost,
-          provider_id,
+          supplier_id,
         },
       });
 

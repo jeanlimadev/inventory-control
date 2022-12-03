@@ -7,7 +7,7 @@ class DeletePurchaseController {
     try {
       const { id } = request.params;
 
-      const purchaseExists = await prismaClient.buy_products.findFirst({
+      const purchaseExists = await prismaClient.purchases.findFirst({
         where: {
           id,
         },
@@ -17,7 +17,7 @@ class DeletePurchaseController {
         return response.status(404).json({ error: "Purchase not found!" });
       }
 
-      await prismaClient.buy_products.delete({
+      await prismaClient.purchases.delete({
         where: {
           id,
         },

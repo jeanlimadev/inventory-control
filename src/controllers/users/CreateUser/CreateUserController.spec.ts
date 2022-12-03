@@ -26,7 +26,7 @@ describe("Create new user", async () => {
 
     expect(response.status).toBe(201);
 
-    await prismaClient.$queryRaw`DELETE FROM "user" WHERE email = ${"user-test@email.com"}`;
+    await prismaClient.$queryRaw`DELETE FROM "users" WHERE email = ${"user-test@email.com"}`;
   });
 
   it("should not be able to create a new user with existent document number", async () => {
@@ -54,6 +54,6 @@ describe("Create new user", async () => {
 
     expect(response.status).toBe(500);
 
-    await prismaClient.$queryRaw`DELETE FROM "user" WHERE email = ${"user2-test@email.com"}`;
+    await prismaClient.$queryRaw`DELETE FROM "users" WHERE email = ${"user2-test@email.com"}`;
   });
 });

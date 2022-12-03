@@ -9,7 +9,7 @@ class EditSaleController {
       const { id } = request.params;
       const { product_id, amount, cost, client_id } = request.body;
 
-      const sale = await prismaClient.sell_products.findFirst({
+      const sale = await prismaClient.sales.findFirst({
         where: {
           id,
         },
@@ -36,7 +36,7 @@ class EditSaleController {
         }
       }
 
-      const saleEdited = await prismaClient.sell_products.update({
+      const saleEdited = await prismaClient.sales.update({
         where: {
           id,
         },

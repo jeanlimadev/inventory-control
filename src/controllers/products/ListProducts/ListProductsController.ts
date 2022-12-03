@@ -4,10 +4,10 @@ import { prismaClient } from "../../../database/prismaClient";
 class ListProductsController {
   async handle(request: Request, response: Response): Promise<Response> {
     try {
-      const products = await prismaClient.product.findMany();
+      const products = await prismaClient.products.findMany();
 
       for (let i = 0; i < products.length; i++) {
-        const purchases = await prismaClient.buy_products.aggregate({
+        const purchases = await prismaClient.purchases.aggregate({
           where: {
             product_id: products[i].id,
           },
@@ -16,7 +16,7 @@ class ListProductsController {
           },
         });
 
-        const sales = await prismaClient.sell_products.aggregate({
+        const sales = await prismaClient.sales.aggregate({
           where: {
             product_id: products[i].id,
           },
