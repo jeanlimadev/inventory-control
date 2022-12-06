@@ -76,6 +76,7 @@ To run the tests, use the command
 - PostgreSQL
 - Vitest
 - Docker
+- Swagger UI
 
 
 ## Contact the developer
