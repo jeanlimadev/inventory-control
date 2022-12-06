@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import request from "supertest";
 
-import { app } from "../../../../app";
+import { app } from "../../../app";
 
 describe("Delete product purchases", async () => {
   const responseToken = await request(app).post("/users/auth").send({
@@ -32,7 +32,7 @@ describe("Delete product purchases", async () => {
       });
 
     const purchase = await request(app)
-      .post("/products/purchase")
+      .post("/purchases")
       .send({
         product_id: product.body.id,
         amount: 100,
@@ -44,7 +44,7 @@ describe("Delete product purchases", async () => {
       });
 
     const deletePurchaseResponse = await request(app)
-      .delete(`/products/purchase/${purchase.body["id"]}`)
+      .delete(`/purchases/${purchase.body["id"]}`)
       .set({
         Authorization: `Bearer ${token}`,
       });
@@ -66,7 +66,7 @@ describe("Delete product purchases", async () => {
 
   it("should not be able to delete a non existent purchase", async () => {
     const deletePurchaseResponse = await request(app)
-      .delete(`/products/purchase/a1b2c3d4e5f6g7`)
+      .delete(`/purchases/a1b2c3d4e5f6g7`)
       .set({
         Authorization: `Bearer ${token}`,
       });

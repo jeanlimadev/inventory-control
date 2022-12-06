@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import request from "supertest";
 
-import { app } from "../../../../app";
+import { app } from "../../../app";
 
 describe("Edit Sale", async () => {
   const responseToken = await request(app).post("/users/auth").send({
@@ -42,7 +42,7 @@ describe("Edit Sale", async () => {
       });
 
     const purchase = await request(app)
-      .post("/products/purchase")
+      .post("/purchases")
       .send({
         product_id: product.body.id,
         amount: 100,
@@ -54,7 +54,7 @@ describe("Edit Sale", async () => {
       });
 
     const sale = await request(app)
-      .post("/products/sell")
+      .post("/sales")
       .send({
         product_id: product.body.id,
         amount: 50,
@@ -66,7 +66,7 @@ describe("Edit Sale", async () => {
       });
 
     const saleEdited = await request(app)
-      .patch(`/products/sell/${sale.body.id}`)
+      .patch(`/sales/${sale.body.id}`)
       .send({
         amount: 100,
         cost: 20,
@@ -80,13 +80,13 @@ describe("Edit Sale", async () => {
     expect(saleEdited.body.cost).toBe(20);
 
     await request(app)
-      .delete(`/products/sell/${saleEdited.body["id"]}`)
+      .delete(`/sales/${saleEdited.body["id"]}`)
       .set({
         Authorization: `Bearer ${token}`,
       });
 
     await request(app)
-      .delete(`/products/purchase/${purchase.body["id"]}`)
+      .delete(`/purchases/${purchase.body["id"]}`)
       .set({
         Authorization: `Bearer ${token}`,
       });
@@ -141,7 +141,7 @@ describe("Edit Sale", async () => {
       });
 
     const purchase = await request(app)
-      .post("/products/purchase")
+      .post("/purchases")
       .send({
         product_id: product.body.id,
         amount: 100,
@@ -153,7 +153,7 @@ describe("Edit Sale", async () => {
       });
 
     const sale = await request(app)
-      .post("/products/sell")
+      .post("/sales")
       .send({
         product_id: product.body.id,
         amount: 50,
@@ -165,7 +165,7 @@ describe("Edit Sale", async () => {
       });
 
     const saleEdited = await request(app)
-      .patch(`/products/sell/${sale.body.id}`)
+      .patch(`/sales/${sale.body.id}`)
       .send({
         amount: -1,
         cost: 20,
@@ -178,13 +178,13 @@ describe("Edit Sale", async () => {
     expect(saleEdited.body).toHaveProperty("error");
 
     await request(app)
-      .delete(`/products/sell/${sale.body["id"]}`)
+      .delete(`/sales/${sale.body["id"]}`)
       .set({
         Authorization: `Bearer ${token}`,
       });
 
     await request(app)
-      .delete(`/products/purchase/${purchase.body["id"]}`)
+      .delete(`/purchases/${purchase.body["id"]}`)
       .set({
         Authorization: `Bearer ${token}`,
       });
@@ -239,7 +239,7 @@ describe("Edit Sale", async () => {
       });
 
     const purchase = await request(app)
-      .post("/products/purchase")
+      .post("/purchases")
       .send({
         product_id: product.body.id,
         amount: 100,
@@ -251,7 +251,7 @@ describe("Edit Sale", async () => {
       });
 
     const sale = await request(app)
-      .post("/products/sell")
+      .post("/sales")
       .send({
         product_id: product.body.id,
         amount: 50,
@@ -263,7 +263,7 @@ describe("Edit Sale", async () => {
       });
 
     const saleEdited = await request(app)
-      .patch(`/products/sell/${sale.body.id}`)
+      .patch(`/sales/${sale.body.id}`)
       .send({
         amount: 110,
         cost: 20,
@@ -276,13 +276,13 @@ describe("Edit Sale", async () => {
     expect(saleEdited.body).toHaveProperty("error");
 
     await request(app)
-      .delete(`/products/sell/${sale.body["id"]}`)
+      .delete(`/sales/${sale.body["id"]}`)
       .set({
         Authorization: `Bearer ${token}`,
       });
 
     await request(app)
-      .delete(`/products/purchase/${purchase.body["id"]}`)
+      .delete(`/purchases/${purchase.body["id"]}`)
       .set({
         Authorization: `Bearer ${token}`,
       });
@@ -308,7 +308,7 @@ describe("Edit Sale", async () => {
 
   it("should not be able to edit a non registered sale", async () => {
     const saleEdited = await request(app)
-      .patch(`/products/sell/a1b2c3d4e5f6`)
+      .patch(`/sales/a1b2c3d4e5f6`)
       .send({
         amount: 100,
         cost: 20,

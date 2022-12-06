@@ -1,15 +1,15 @@
 import { Request, Response } from "express";
 import { container } from "tsyringe";
 
-import { DayJsDateProvider } from "../../../../utils/DateProvider/DayJsDateProvider";
-import { prismaClient } from "../../../../database/prismaClient";
+import { DayJsDateProvider } from "../../../utils/DateProvider/DayJsDateProvider";
+import { prismaClient } from "../../../database/prismaClient";
 
-class FilterSales {
+class FilterPurchases {
   async handle(request: Request, response: Response): Promise<Response> {
     try {
       const dateProvider = container.resolve(DayJsDateProvider);
 
-      const customer_id = request.query.customer_id?.toString();
+      const supplier_id = request.query.supplier_id?.toString();
       const product_id = request.query.product_id?.toString();
 
       const initial_date =
@@ -19,9 +19,9 @@ class FilterSales {
       const initialDateParsed = dateProvider.convertToUTC(initial_date);
       const endDateParsed = dateProvider.changeHourAndConvertToUTC(end_date);
 
-      const sales = await prismaClient.sales.findMany({
+      const purchases = await prismaClient.purchases.findMany({
         where: {
-          customer_id,
+          supplier_id,
           product_id,
           created_at: {
             gte: initialDateParsed,
@@ -33,11 +33,11 @@ class FilterSales {
         },
       });
 
-      return response.json(sales);
+      return response.json(purchases);
     } catch (error) {
       return response.status(400).json({ error: "Verify your request data" });
     }
   }
 }
 
-export { FilterSales };
+export { FilterPurchases };

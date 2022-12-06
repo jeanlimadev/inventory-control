@@ -3,8 +3,8 @@ import { describe, expect, it } from "vitest";
 import request from "supertest";
 import { container } from "tsyringe";
 
-import { app } from "../../../../app";
-import { DayJsDateProvider } from "../../../../utils/DateProvider/DayJsDateProvider";
+import { app } from "../../../app";
+import { DayJsDateProvider } from "../../../utils/DateProvider/DayJsDateProvider";
 
 describe("Filter sales by customer and period", async () => {
   const responseToken = await request(app).post("/users/auth").send({
@@ -37,7 +37,7 @@ describe("Filter sales by customer and period", async () => {
       });
 
     const purchase = await request(app)
-      .post("/products/purchase")
+      .post("/purchases")
       .send({
         product_id: product.body.id,
         amount: 500,
@@ -59,7 +59,7 @@ describe("Filter sales by customer and period", async () => {
       });
 
     const sale1 = await request(app)
-      .post("/products/sell")
+      .post("/sales")
       .send({
         product_id: product.body.id,
         amount: 50,
@@ -71,7 +71,7 @@ describe("Filter sales by customer and period", async () => {
       });
 
     const sale2 = await request(app)
-      .post("/products/sell")
+      .post("/sales")
       .send({
         product_id: product.body.id,
         amount: 50,
@@ -83,7 +83,7 @@ describe("Filter sales by customer and period", async () => {
       });
 
     const filterSales = await request(app)
-      .get(`/products/sell/filter?customer_id=${customer.body["id"]}`)
+      .get(`/sales/filter?customer_id=${customer.body["id"]}`)
       .set({
         Authorization: `Bearer ${token}`,
       });
@@ -93,19 +93,19 @@ describe("Filter sales by customer and period", async () => {
     expect(filterSales.body[0]).toHaveProperty("id");
 
     await request(app)
-      .delete(`/products/purchase/${purchase.body["id"]}`)
+      .delete(`/purchases/${purchase.body["id"]}`)
       .set({
         Authorization: `Bearer ${token}`,
       });
 
     await request(app)
-      .delete(`/products/sell/${sale1.body["id"]}`)
+      .delete(`/sales/${sale1.body["id"]}`)
       .set({
         Authorization: `Bearer ${token}`,
       });
 
     await request(app)
-      .delete(`/products/sell/${sale2.body["id"]}`)
+      .delete(`/sales/${sale2.body["id"]}`)
       .set({
         Authorization: `Bearer ${token}`,
       });
@@ -150,7 +150,7 @@ describe("Filter sales by customer and period", async () => {
       });
 
     const purchase = await request(app)
-      .post("/products/purchase")
+      .post("/purchases")
       .send({
         product_id: product.body.id,
         amount: 500,
@@ -172,7 +172,7 @@ describe("Filter sales by customer and period", async () => {
       });
 
     const sale1 = await request(app)
-      .post("/products/sell")
+      .post("/sales")
       .send({
         product_id: product.body.id,
         amount: 50,
@@ -184,7 +184,7 @@ describe("Filter sales by customer and period", async () => {
       });
 
     const sale2 = await request(app)
-      .post("/products/sell")
+      .post("/sales")
       .send({
         product_id: product.body.id,
         amount: 50,
@@ -197,7 +197,7 @@ describe("Filter sales by customer and period", async () => {
 
     const filterSales1 = await request(app)
       .get(
-        `/products/sell/filter?customer_id=${
+        `/sales/filter?customer_id=${
           customer.body["id"]
         }&initial_date=${dateProvider.dateTodayFormatAndAddDays()}&end_date=${dateProvider.dateTodayFormatAndAddDays()}`
       )
@@ -207,7 +207,7 @@ describe("Filter sales by customer and period", async () => {
 
     const filterSales2 = await request(app)
       .get(
-        `/products/sell/filter?customer_id=${
+        `/sales/filter?customer_id=${
           customer.body["id"]
         }&initial_date=${dateProvider.dateTodayFormatAndAddDays(
           1
@@ -219,7 +219,7 @@ describe("Filter sales by customer and period", async () => {
 
     const filterSales3 = await request(app)
       .get(
-        `/products/sell/filter?customer_id=${
+        `/sales/filter?customer_id=${
           customer.body["id"]
         }&initial_date=${dateProvider.dateTodayFormatAndAddDays(
           -1
@@ -241,19 +241,19 @@ describe("Filter sales by customer and period", async () => {
     expect(filterSales3.body[0]).toHaveProperty("id");
 
     await request(app)
-      .delete(`/products/purchase/${purchase.body["id"]}`)
+      .delete(`/purchases/${purchase.body["id"]}`)
       .set({
         Authorization: `Bearer ${token}`,
       });
 
     await request(app)
-      .delete(`/products/sell/${sale1.body["id"]}`)
+      .delete(`/sales/${sale1.body["id"]}`)
       .set({
         Authorization: `Bearer ${token}`,
       });
 
     await request(app)
-      .delete(`/products/sell/${sale2.body["id"]}`)
+      .delete(`/sales/${sale2.body["id"]}`)
       .set({
         Authorization: `Bearer ${token}`,
       });
@@ -298,7 +298,7 @@ describe("Filter sales by customer and period", async () => {
       });
 
     const purchase = await request(app)
-      .post("/products/purchase")
+      .post("/purchases")
       .send({
         product_id: product.body.id,
         amount: 500,
@@ -320,7 +320,7 @@ describe("Filter sales by customer and period", async () => {
       });
 
     const sale1 = await request(app)
-      .post("/products/sell")
+      .post("/sales")
       .send({
         product_id: product.body.id,
         amount: 50,
@@ -332,7 +332,7 @@ describe("Filter sales by customer and period", async () => {
       });
 
     const sale2 = await request(app)
-      .post("/products/sell")
+      .post("/sales")
       .send({
         product_id: product.body.id,
         amount: 50,
@@ -344,7 +344,7 @@ describe("Filter sales by customer and period", async () => {
       });
 
     const filterSales = await request(app)
-      .get(`/products/sell/filter`)
+      .get(`/sales/filter`)
       .set({
         Authorization: `Bearer ${token}`,
       });
@@ -353,19 +353,19 @@ describe("Filter sales by customer and period", async () => {
     expect(filterSales.body.length).toBeGreaterThanOrEqual(2);
 
     await request(app)
-      .delete(`/products/purchase/${purchase.body["id"]}`)
+      .delete(`/purchases/${purchase.body["id"]}`)
       .set({
         Authorization: `Bearer ${token}`,
       });
 
     await request(app)
-      .delete(`/products/sell/${sale1.body["id"]}`)
+      .delete(`/sales/${sale1.body["id"]}`)
       .set({
         Authorization: `Bearer ${token}`,
       });
 
     await request(app)
-      .delete(`/products/sell/${sale2.body["id"]}`)
+      .delete(`/sales/${sale2.body["id"]}`)
       .set({
         Authorization: `Bearer ${token}`,
       });

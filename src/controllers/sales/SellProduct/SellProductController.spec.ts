@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import request from "supertest";
 
-import { app } from "../../../../app";
+import { app } from "../../../app";
 
 describe("Sell Products", async () => {
   const responseToken = await request(app).post("/users/auth").send({
@@ -42,7 +42,7 @@ describe("Sell Products", async () => {
       });
 
     const purchase = await request(app)
-      .post("/products/purchase")
+      .post("/purchases")
       .send({
         product_id: product.body.id,
         amount: 100,
@@ -54,7 +54,7 @@ describe("Sell Products", async () => {
       });
 
     const sale = await request(app)
-      .post("/products/sell")
+      .post("/sales")
       .send({
         product_id: product.body.id,
         amount: 100,
@@ -69,13 +69,13 @@ describe("Sell Products", async () => {
     expect(sale.body).toHaveProperty("id");
 
     await request(app)
-      .delete(`/products/sell/${sale.body["id"]}`)
+      .delete(`/sales/${sale.body["id"]}`)
       .set({
         Authorization: `Bearer ${token}`,
       });
 
     await request(app)
-      .delete(`/products/purchase/${purchase.body["id"]}`)
+      .delete(`/purchases/${purchase.body["id"]}`)
       .set({
         Authorization: `Bearer ${token}`,
       });
@@ -130,7 +130,7 @@ describe("Sell Products", async () => {
       });
 
     const purchase = await request(app)
-      .post("/products/purchase")
+      .post("/purchases")
       .send({
         product_id: product.body.id,
         amount: 90,
@@ -142,7 +142,7 @@ describe("Sell Products", async () => {
       });
 
     const sale = await request(app)
-      .post("/products/sell")
+      .post("/sales")
       .send({
         product_id: product.body.id,
         amount: 100,
@@ -157,7 +157,7 @@ describe("Sell Products", async () => {
     expect(sale.body).toHaveProperty("error");
 
     await request(app)
-      .delete(`/products/purchase/${purchase.body["id"]}`)
+      .delete(`/purchases/${purchase.body["id"]}`)
       .set({
         Authorization: `Bearer ${token}`,
       });
@@ -202,7 +202,7 @@ describe("Sell Products", async () => {
       });
 
     const purchase = await request(app)
-      .post("/products/purchase")
+      .post("/purchases")
       .send({
         product_id: product.body.id,
         amount: 100,
@@ -214,7 +214,7 @@ describe("Sell Products", async () => {
       });
 
     const sale = await request(app)
-      .post("/products/sell")
+      .post("/sales")
       .send({
         product_id: product.body.id,
         amount: 100,
@@ -229,7 +229,7 @@ describe("Sell Products", async () => {
     expect(sale.body).toHaveProperty("error");
 
     await request(app)
-      .delete(`/products/purchase/${purchase.body["id"]}`)
+      .delete(`/purchases/${purchase.body["id"]}`)
       .set({
         Authorization: `Bearer ${token}`,
       });
@@ -278,7 +278,7 @@ describe("Sell Products", async () => {
       });
 
     const purchase = await request(app)
-      .post("/products/purchase")
+      .post("/purchases")
       .send({
         product_id: product.body.id,
         amount: 100,
@@ -290,7 +290,7 @@ describe("Sell Products", async () => {
       });
 
     const sale = await request(app)
-      .post("/products/sell")
+      .post("/sales")
       .send({
         product_id: "a1b2c3d4e5f6",
         amount: 100,
@@ -305,7 +305,7 @@ describe("Sell Products", async () => {
     expect(sale.body).toHaveProperty("error");
 
     await request(app)
-      .delete(`/products/purchase/${purchase.body["id"]}`)
+      .delete(`/purchases/${purchase.body["id"]}`)
       .set({
         Authorization: `Bearer ${token}`,
       });

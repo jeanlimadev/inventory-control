@@ -1,13 +1,13 @@
 import { Request, Response } from "express";
 
-import { prismaClient } from "../../../../database/prismaClient";
-import { CheckInventoryAvailability } from "../../../../utils/CheckInventoryAvailability";
+import { prismaClient } from "../../../database/prismaClient";
+import { CheckInventoryAvailability } from "../../../utils/CheckInventoryAvailability";
 
 class EditSaleController {
   async handle(request: Request, response: Response): Promise<Response> {
     try {
       const { id } = request.params;
-      const { product_id, amount, cost, client_id } = request.body;
+      const { product_id, amount, cost, customer_id } = request.body;
 
       const sale = await prismaClient.sales.findFirst({
         where: {
@@ -44,7 +44,7 @@ class EditSaleController {
           product_id,
           amount,
           cost,
-          client_id,
+          customer_id,
         },
       });
 

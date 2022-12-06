@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 
-import { prismaClient } from "../../../../database/prismaClient";
-import { CheckInventoryAvailability } from "../../../../utils/CheckInventoryAvailability";
+import { prismaClient } from "../../../database/prismaClient";
+import { CheckInventoryAvailability } from "../../../utils/CheckInventoryAvailability";
 
 class SellProductController {
   async handle(request: Request, response: Response): Promise<Response> {

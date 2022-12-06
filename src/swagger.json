@@ -44,6 +44,9 @@
             },
             "created_at": {
               "type": "string"
+            },
+            "inventory": {
+              "type": "number"
             }
           }
         }
@@ -776,7 +779,7 @@
         }
       }
     },
-    "/products/purchase": {
+    "/purchases": {
       "post": {
         "security": [
           {
@@ -834,7 +837,7 @@
         }
       }
     },
-    "/products/purchase/filter/{supplier_id}": {
+    "/purchases/filter": {
       "get": {
         "security": [
           {
@@ -843,11 +846,19 @@
         ],
         "parameters": [
           {
-            "in": "path",
+            "in": "query",
             "name": "supplier_id",
             "schema": {
               "type": "string",
-              "required": true
+              "required": false
+            }
+          },
+          {
+            "in": "query",
+            "name": "product_id",
+            "schema": {
+              "type": "string",
+              "required": false
             }
           },
           {
@@ -889,7 +900,7 @@
         }
       }
     },
-    "/products/purchase/{id}": {
+    "/purchases/{id}": {
       "patch": {
         "security": [
           {
@@ -985,7 +996,7 @@
         }
       }
     },
-    "/products/sell": {
+    "/sales": {
       "post": {
         "security": [
           {
@@ -1046,7 +1057,7 @@
         }
       }
     },
-    "/products/sell/filter/{customer_id}": {
+    "/sales/filter": {
       "get": {
         "security": [
           {
@@ -1055,11 +1066,19 @@
         ],
         "parameters": [
           {
-            "in": "path",
+            "in": "query",
             "name": "customer_id",
             "schema": {
               "type": "string",
-              "required": true
+              "required": false
+            }
+          },
+          {
+            "in": "query",
+            "name": "product_id",
+            "schema": {
+              "type": "string",
+              "required": false
             }
           },
           {
@@ -1101,7 +1120,7 @@
         }
       }
     },
-    "/products/sell/{id}": {
+    "/sales/{id}": {
       "patch": {
         "security": [
           {

@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import request from "supertest";
 
-import { app } from "../../../../app";
+import { app } from "../../../app";
 
 describe("Buy Product", async () => {
   const responseToken = await request(app).post("/users/auth").send({
@@ -32,7 +32,7 @@ describe("Buy Product", async () => {
       });
 
     const purchase = await request(app)
-      .post("/products/purchase")
+      .post("/purchases")
       .send({
         product_id: product.body.id,
         amount: 100,
@@ -47,7 +47,7 @@ describe("Buy Product", async () => {
     expect(purchase.body).toHaveProperty("id");
 
     await request(app)
-      .delete(`/products/purchase/${purchase.body["id"]}`)
+      .delete(`/purchases/${purchase.body["id"]}`)
       .set({
         Authorization: `Bearer ${token}`,
       });
@@ -77,7 +77,7 @@ describe("Buy Product", async () => {
       });
 
     const purchase = await request(app)
-      .post("/products/purchase")
+      .post("/purchases")
       .send({
         product_id: "a1b2c3d4e5",
         amount: 100,
@@ -109,7 +109,7 @@ describe("Buy Product", async () => {
       });
 
     const purchase = await request(app)
-      .post("/products/purchase")
+      .post("/purchases")
       .send({
         product_id: product.body.id,
         amount: 100,
