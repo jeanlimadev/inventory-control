@@ -11,8 +11,8 @@ import { DeleteSaleController } from "../controllers/products/sales/DeleteSale/D
 import { EditProductController } from "../controllers/products/EditProduct/EditProductController";
 import { EditPurchaseController } from "../controllers/products/purchases/EditPurchase/EditPurchaseController";
 import { EditSaleController } from "../controllers/products/sales/EditSale/EditSaleController";
-import { FilterPurchasesBySupplierAndPeriod } from "../controllers/products/purchases/FilterPurchases/FilterPurchasesBySupplierAndPeriod";
-import { FilterSalesByCustomerAndPeriod } from "../controllers/products/sales/FilterSales/FilterSalesByCustomerAndPeriod";
+import { FilterPurchases } from "../controllers/products/purchases/FilterPurchases/FilterPurchases";
+import { FilterSales } from "../controllers/products/sales/FilterSales/FilterSales";
 
 const productsRoutes = Router();
 
@@ -22,12 +22,11 @@ const editProductController = new EditProductController();
 const deleteProductController = new DeleteProductController();
 const buyProductsController = new BuyProductController();
 const editPurchaseController = new EditPurchaseController();
-const filterPurchasesBySupplierAndPeriod =
-  new FilterPurchasesBySupplierAndPeriod();
+const filterPurchases = new FilterPurchases();
 const deletePurchaseController = new DeletePurchaseController();
 const sellProductsController = new SellProductController();
 const editSaleController = new EditSaleController();
-const filterSalesByCustomerAndPeriod = new FilterSalesByCustomerAndPeriod();
+const filterSales = new FilterSales();
 const deleteSaleController = new DeleteSaleController();
 
 productsRoutes.post("/", ensureAuthenticated, createProductController.handle);
@@ -55,9 +54,9 @@ productsRoutes.patch(
 );
 
 productsRoutes.get(
-  "/purchase/filter/:id",
+  "/purchase/filter",
   ensureAuthenticated,
-  filterPurchasesBySupplierAndPeriod.handle
+  filterPurchases.handle
 );
 
 productsRoutes.delete(
@@ -78,11 +77,7 @@ productsRoutes.patch(
   editSaleController.handle
 );
 
-productsRoutes.get(
-  "/sell/filter/:id",
-  ensureAuthenticated,
-  filterSalesByCustomerAndPeriod.handle
-);
+productsRoutes.get("/sell/filter", ensureAuthenticated, filterSales.handle);
 
 productsRoutes.delete(
   "/sell/:id",

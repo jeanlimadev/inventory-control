@@ -7,8 +7,10 @@ COPY prisma ./prisma/
 
 RUN npm install --force
 
+RUN npm install npm -g --force
+
 COPY . .
 
 EXPOSE 3333
 
-CMD ["npm", "run", "dev"]
+CMD ["npm", "run", "migrations:dev"]

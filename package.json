@@ -5,9 +5,9 @@
   "main": "server.js",
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only --exit-child --watch src ./src/server.ts",
-    "migrate:dev": "npx prisma migrate dev && npm run dev",
     "test": "vitest",
-    "seed:admin": "ts-node-dev src/seed/admin.ts"
+    "seed:admin": "ts-node-dev src/seed/admin.ts",
+    "migrations:dev": "npx prisma migrate dev && npm run dev"
   },
   "keywords": [],
   "author": "",

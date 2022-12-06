@@ -4,22 +4,13 @@ import { container } from "tsyringe";
 import { DayJsDateProvider } from "../../../../utils/DateProvider/DayJsDateProvider";
 import { prismaClient } from "../../../../database/prismaClient";
 
-class FilterSalesByCustomerAndPeriod {
+class FilterPurchases {
   async handle(request: Request, response: Response): Promise<Response> {
     try {
-      const { id } = request.params;
-
       const dateProvider = container.resolve(DayJsDateProvider);
 
-      const customerExists = await prismaClient.customers.findFirst({
-        where: {
-          id,
-        },
-      });
-
-      if (!customerExists) {
-        return response.status(404).json({ error: "Supplier not found!" });
-      }
+      const supplier_id = request.query.supplier_id?.toString();
+      const product_id = request.query.product_id?.toString();
 
       const initial_date =
         request.query.initial_date?.toString() || "1900-01-01";
@@ -28,9 +19,10 @@ class FilterSalesByCustomerAndPeriod {
       const initialDateParsed = dateProvider.convertToUTC(initial_date);
       const endDateParsed = dateProvider.changeHourAndConvertToUTC(end_date);
 
-      const sales = await prismaClient.sales.findMany({
+      const purchases = await prismaClient.purchases.findMany({
         where: {
-          customer_id: id,
+          supplier_id,
+          product_id,
           created_at: {
             gte: initialDateParsed,
             lte: endDateParsed,
@@ -41,11 +33,11 @@ class FilterSalesByCustomerAndPeriod {
         },
       });
 
-      return response.json(sales);
+      return response.json(purchases);
     } catch (error) {
       return response.status(400).json({ error: "Verify your request data" });
     }
   }
 }
 
-export { FilterSalesByCustomerAndPeriod };
+export { FilterPurchases };

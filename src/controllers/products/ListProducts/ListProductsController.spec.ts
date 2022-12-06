@@ -27,8 +27,6 @@ describe("List products", async () => {
         Authorization: `Bearer ${token}`,
       });
 
-    console.log(response.body);
-
     expect(response.status).toBe(200);
     expect(response.body[0]).toHaveProperty("id");
 
