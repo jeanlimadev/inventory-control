@@ -10,6 +10,7 @@ async function create() {
       name: "admin",
       password,
       isAdmin: true,
+      verified: true,
     },
   });
 }

@@ -1,6 +1,8 @@
 import { hash } from "bcrypt";
 import { Request, Response } from "express";
+
 import { prismaClient } from "../../../database/prismaClient";
+import { sendVerifyMail } from "../SendVerifyEmail/SendVerifyEmail";
 
 class CreateUserController {
   async handle(request: Request, response: Response): Promise<Response> {
@@ -27,7 +29,9 @@ class CreateUserController {
         },
       });
 
-      return response.status(201).send();
+      sendVerifyMail(email);
+
+      return response.status(201).json({ message: "User created. check your email to activate your account." });
     } catch (error) {
       return response.status(400).json({ error: "Verify your request data." });
     }
