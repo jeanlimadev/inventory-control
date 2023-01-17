@@ -20,7 +20,7 @@ describe("Create new user", async () => {
     await prismaClient.$queryRaw`DELETE FROM "users" WHERE email = ${"user-test@email.com"}`;
   });
 
-  it("should not be able to create a new user with existent document number", async () => {
+  it("should not be able to create a new user with existent email", async () => {
     await request(app)
       .post("/users")
       .send({
