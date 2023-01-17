@@ -47,6 +47,12 @@ class AuthenticateUserController {
         return response.status(500).json({ error: "User does not verified!" });
       }
 
+      await prismaClient.users_tokens.deleteMany({
+        where: {
+          user_id: user.id
+        }
+      });
+
       const token = sign({}, auth.secret_token, {
         subject: user.id,
         expiresIn: auth.expires_in_token,

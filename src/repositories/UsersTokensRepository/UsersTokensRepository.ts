@@ -7,7 +7,7 @@ import { prismaClient } from "../../database/prismaClient";
 
 @singleton()
 class UsersTokensRepository implements IUsersTokensRepository {
-  async create({
+    async create({
     expires_date,
     user_token,
     user_id,
@@ -31,6 +31,20 @@ class UsersTokensRepository implements IUsersTokensRepository {
     });
 
     return userToken;
+  }
+
+  async deleteByUserId(user_id: string): Promise<void> {
+    const userToken = await prismaClient.users_tokens.findFirstOrThrow({
+      where: {
+        user_id,
+      },
+    });
+
+    await prismaClient.users_tokens.deleteMany({
+      where: {
+        id: userToken.id,
+      },
+    });
   }
 }
 

@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 
 import { prismaClient } from "../../../database/prismaClient";
 
-class VerifyUserEmail {
+class VerifyUserEmailController {
   async handle(request: Request, response: Response): Promise<Response> {
     try {
       const { token } = request.query;
@@ -26,6 +26,12 @@ class VerifyUserEmail {
         },
       });
 
+      await prismaClient.users_tokens.delete({
+        where: {
+          id: userToken.id,
+        },
+      });
+
       return response.json({ message: "User successfully verified!" });
     } catch (error) {
       return response.status(400).json({ error: error });
@@ -33,4 +39,4 @@ class VerifyUserEmail {
   }
 }
 
-export { VerifyUserEmail };
+export { VerifyUserEmailController };
