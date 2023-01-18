@@ -20,7 +20,7 @@ class SendVerificationEmailController {
       });
 
       if (!user) {
-        return response.status(500).json({ error: "User not found!" });
+        return response.status(404).json({ error: "User not found!" });
       }
 
       if (user.verified) {

@@ -266,10 +266,45 @@
         },
         "responses": {
           "201": {
-            "description": "Created"
+            "description": "User successfully created. Confirm your email to be able to use the application."
           },
           "500": {
             "description": "User already exists"
+          }
+        }
+      }
+    },
+    "/users/send-verify-mail": {
+      "post": {
+        "tags": ["Users"],
+        "summary": "Verify user email",
+        "description": "Verify user email",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "email": "example@email.com"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Verification email sended, check your inbox."
+          },
+          "404": {
+            "description": "User not found!"
+          },
+          "500": {
+            "description": "Email already verified!"
           }
         }
       }
@@ -304,8 +339,11 @@
           "201": {
             "description": "Success"
           },
-          "500": {
+          "401": {
             "description": "Email or password incorrect!"
+          },
+          "500": {
+            "description": "User does not verified!"
           }
         }
       }
