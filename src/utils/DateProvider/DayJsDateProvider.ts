@@ -32,6 +32,10 @@ class DayJsDateProvider implements IDateProvider {
 
     return formatedDate;
   }
+
+  addDays(days: number): Date {
+    return dayjs().add(days, "day").toDate();
+  }
 }
 
 export { DayJsDateProvider };

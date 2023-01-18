@@ -13,4 +13,4 @@ COPY . .
 
 EXPOSE 3333
 
-CMD ["npm", "run", "migrations:dev"]
+CMD ["npm", "run", "dev"]

@@ -1,5 +1,6 @@
 import { hash } from "bcrypt";
 import { Request, Response } from "express";
+
 import { prismaClient } from "../../../database/prismaClient";
 
 class CreateUserController {
@@ -27,7 +28,7 @@ class CreateUserController {
         },
       });
 
-      return response.status(201).send();
+      return response.status(201).json({ message: "User successfully created. Confirm your email to be able to use the application." });
     } catch (error) {
       return response.status(400).json({ error: "Verify your request data." });
     }

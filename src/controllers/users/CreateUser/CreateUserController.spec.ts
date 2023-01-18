@@ -5,12 +5,6 @@ import { app } from "../../../app";
 import { prismaClient } from "../../../database/prismaClient";
 
 describe("Create new user", async () => {
-  const responseToken = await request(app).post("/users/auth").send({
-    email: "admin@admin.com",
-    password: "admin",
-  });
-
-  const { token } = responseToken.body;
 
   it("should be able to create a new user", async () => {
     const response = await request(app)
@@ -20,25 +14,19 @@ describe("Create new user", async () => {
         email: "user-test@email.com",
         password: "123",
       })
-      .set({
-        Authorization: `Bearer ${token}`,
-      });
 
     expect(response.status).toBe(201);
 
     await prismaClient.$queryRaw`DELETE FROM "users" WHERE email = ${"user-test@email.com"}`;
   });
 
-  it("should not be able to create a new user with existent document number", async () => {
+  it("should not be able to create a new user with existent email", async () => {
     await request(app)
       .post("/users")
       .send({
         name: "User Name Test",
         email: "user2-test@email.com",
         password: "123",
-      })
-      .set({
-        Authorization: `Bearer ${token}`,
       });
 
     const response = await request(app)
@@ -47,9 +35,6 @@ describe("Create new user", async () => {
         name: "User Name Test",
         email: "user2-test@email.com",
         password: "123",
-      })
-      .set({
-        Authorization: `Bearer ${token}`,
       });
 
     expect(response.status).toBe(500);
