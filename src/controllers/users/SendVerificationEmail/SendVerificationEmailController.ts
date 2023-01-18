@@ -59,7 +59,7 @@ class SendVerificationEmailController {
       };
     
       mailProvider.sendMail(
-        "jeanlima.dev@gmail.com",
+        email,
         "Ativação de conta",
         variables,
         templatePath

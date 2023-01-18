@@ -1,4 +1,3 @@
-import aws from "aws-sdk";
 import fs from "fs";
 import handlebars from "handlebars";
 import nodemailer, { Transporter } from "nodemailer";
@@ -11,13 +10,14 @@ class MailProvider implements IMailProvider {
   private client: Transporter;
 
   constructor() {
-    const ses = new aws.SES({
-      apiVersion: "2010-12-01",
-      region: process.env.AWS_REGION,
-    });
-
     this.client = nodemailer.createTransport({
-      SES: { ses, aws },
+      host: 'smtp.zoho.com',
+      port: 465,
+      secure: true,
+      auth: {
+        user: process.env.ZOHO_MAIL_LOGIN,
+        pass: process.env.ZOHO_MAIL_PASSWORD
+      }
     });
   }
 
@@ -33,13 +33,17 @@ class MailProvider implements IMailProvider {
 
     const templateHTML = templateParse(variables);
 
-    await this.client.sendMail({
-      from: "Inventory Control <jeanlima.dev@gmail.com>",
-      to,
-      subject,
-      html: templateHTML,
-    });
-  }
-}
+    try {
+      await this.client.sendMail({
+        from: "Inventory Control <contato@jeanlima.dev>",
+        to,
+        subject,
+        html: templateHTML,
+      });
+    } catch (error) {
+      console.log(error);
+    };
+  };
+};
 
 export { MailProvider };
