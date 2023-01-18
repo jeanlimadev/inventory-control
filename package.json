@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only --exit-child --watch src ./src/server.ts",
-    "build": "npx tsc --init && node dist/server.js",
+    "build": "tsc",
     "test": "vitest",
     "seed:admin": "ts-node-dev src/seed/admin.ts",
     "migrations:dev": "npx prisma migrate dev && npm run dev"

@@ -31,7 +31,7 @@ class AuthenticateUserController {
 
       if (!user) {
         return response
-          .status(500)
+          .status(401)
           .json({ error: "Email or password incorrect!" });
       }
 
@@ -39,7 +39,7 @@ class AuthenticateUserController {
 
       if (!passwordMatch) {
         return response
-          .status(500)
+          .status(401)
           .json({ error: "Email or password incorrect!" });
       }
 
