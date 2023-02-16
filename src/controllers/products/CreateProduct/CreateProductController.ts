@@ -6,13 +6,13 @@ class CreateProductController {
     try {
       const { name } = request.body;
 
-      const productAlreadyExists = await prismaClient.products.count({
+      const productAlreadyExists = await prismaClient.products.findFirst({
         where: {
           name,
         },
       });
 
-      if (productAlreadyExists != 0) {
+      if (productAlreadyExists) {
         return response.status(500).json({ error: "Product already exists!" });
       }
 

@@ -3,7 +3,7 @@ import { Router } from "express";
 import { CreateSupplierController } from "../controllers/suppliers/CreateSupplier/CreateSupplierController";
 import { DeleteSupplierController } from "../controllers/suppliers/DeleteSupplier/DeleteSupplierController";
 import { EditSupplierController } from "../controllers/suppliers/EditSupplier/EditSupplierController";
-import { ListSuppliersController } from "../controllers/suppliers/ListSupplier/ListSupplierController";
+import { ListSuppliersController } from "../controllers/suppliers/ListSuppliers/ListSuppliersController";
 import { ensureAuthenticated } from "../middlewares/ensureAuthenticated";
 
 const suppliersRoutes = Router();
