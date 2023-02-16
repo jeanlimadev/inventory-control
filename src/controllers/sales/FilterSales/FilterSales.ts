@@ -33,7 +33,28 @@ class FilterSales {
         },
       });
 
-      return response.json(sales);
+      const salesAddingNames = await Promise.all(sales.map(async sale => {
+        const customer = await prismaClient.customers.findFirst({ 
+          where: {
+            id: sale.customer_id,
+          }, 
+        });
+
+        const product = await prismaClient.products.findFirst({ 
+          where: {
+            id: sale.product_id,
+          }, 
+        });
+
+        Object.assign(sale, {
+          customer_name: customer?.name,
+          product_name: product?.name,
+        })
+
+        return sale;
+      }));
+
+      return response.json(salesAddingNames);
     } catch (error) {
       return response.status(400).json({ error: "Verify your request data" });
     }

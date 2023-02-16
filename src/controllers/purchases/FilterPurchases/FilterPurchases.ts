@@ -33,7 +33,28 @@ class FilterPurchases {
         },
       });
 
-      return response.json(purchases);
+      const purchasesAddingNames = await Promise.all(purchases.map(async purchase => {
+        const supplier = await prismaClient.suppliers.findFirst({ 
+          where: {
+            id: purchase.supplier_id,
+          }, 
+        });
+
+        const product = await prismaClient.products.findFirst({ 
+          where: {
+            id: purchase.product_id,
+          }, 
+        });
+
+        Object.assign(purchase, {
+          supplier_name: supplier?.name,
+          product_name: product?.name,
+        })
+
+        return purchase;
+      }));
+
+      return response.json(purchasesAddingNames);
     } catch (error) {
       return response.status(400).json({ error: "Verify your request data" });
     }
