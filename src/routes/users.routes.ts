@@ -5,6 +5,7 @@ import { CreateUserController } from "../controllers/users/CreateUser/CreateUser
 import { ListUserProfileController } from "../controllers/users/ListUserProfile/ListUserProfileController";
 import { SendVerificationEmailController } from "../controllers/users/SendVerificationEmail/SendVerificationEmailController";
 import { VerifyUserEmailController } from "../controllers/users/VerifyUserEmail/VerifyUserEmailController";
+import { VerifyUserTokenController } from "../controllers/users/VerifyUserToken/VerifyUserTokenController";
 import { ensureAuthenticated } from "../middlewares/ensureAuthenticated";
 
 const usersRoutes = Router();
@@ -14,10 +15,13 @@ const authenticateUserController = new AuthenticateUserController();
 const sendVerificationEmailController = new SendVerificationEmailController();
 const verifyUserEmailController = new VerifyUserEmailController();
 const listUserProfileController = new ListUserProfileController();
+const verifyUserTokenController = new VerifyUserTokenController();
 
 usersRoutes.post("/", createUserController.handle);
 
 usersRoutes.post("/auth", authenticateUserController.handle);
+
+usersRoutes.get("/verify-token", ensureAuthenticated, verifyUserTokenController.handle)
 
 usersRoutes.post("/send-verify-mail", sendVerificationEmailController.handle);
 
