@@ -1,7 +1,7 @@
 import { singleton } from "tsyringe";
 
 import { users_tokens } from "@prisma/client";
-import { ICreateUserTokenDTO } from "../../dtos/ICreateUserTokenDTO";
+import { ICreateUserTokenDTO } from "../../dtos/CreateUserTokenDTO";
 import { IUsersTokensRepository } from "../IUsersTokensRepository";
 import { prismaClient } from "../../database/prismaClient";
 
