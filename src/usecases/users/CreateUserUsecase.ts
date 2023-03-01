@@ -1,7 +1,7 @@
 import { CreateUser, FindUserByEmail } from "@/infra/repositories/interfaces";
 import { UserModel } from "@/models";
 
-export class CreateUserUsecase {
+export class CreateUserUseCase {
   constructor(private readonly usersRepository: CreateUser & FindUserByEmail) {}
 
   async execute (user: UserModel): Promise<void> {

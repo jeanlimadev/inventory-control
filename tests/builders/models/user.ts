@@ -8,6 +8,7 @@ export class UserBuilder {
   public build(): UserModel {
     return new UserModel({
       id: randomUUID(),
+      email: faker.internet.email(),
       name: faker.name.firstName(),
       password: faker.random.alphaNumeric().toString(),
       createdAt: faker.datatype.datetime()

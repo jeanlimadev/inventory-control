@@ -1,16 +1,16 @@
 import { UserBuilder } from "#/builders/models/user";
 import { InMemoryUsersRepository } from "#/infra/repositories";
 import { UserModel } from "@/models";
-import { CreateUserUsecase } from "@/usecases/users"
+import { CreateUserUseCase } from "@/usecases/users"
 
 interface Subject {
   usersRepository: InMemoryUsersRepository;
-  sut: CreateUserUsecase;
+  sut: CreateUserUseCase;
 }
 
 const createSubject = (users: UserModel[] = []): Subject => {
   const usersRepository = new InMemoryUsersRepository(users);
-  const sut = new CreateUserUsecase(usersRepository);
+  const sut = new CreateUserUseCase(usersRepository);
 
   usersRepository.create = jest.fn();
 
@@ -20,7 +20,7 @@ const createSubject = (users: UserModel[] = []): Subject => {
   }
 }
 
-describe('CreateUserUsecase', () => {
+describe('CreateUserUseCase', () => {
   it('should be abe to create a user', async () => {
     const { sut, usersRepository } = createSubject();
     const user = new UserBuilder().build();
