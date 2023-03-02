@@ -1,5 +1,5 @@
 import { ProductModel } from "@/domain/models";
-import { CreateProduct, FindProductByName } from "../db/repositories/interfaces";
+import { CreateProduct, FindProductByName } from "../../domain/contracts/repositories";
 
 
 export class InMemoryProductsRepository implements CreateProduct, FindProductByName {

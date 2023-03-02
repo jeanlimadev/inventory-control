@@ -1,4 +1,4 @@
-import { CreateProduct, FindProductByName } from "@/infra/db/repositories/interfaces";
+import { CreateProduct, FindProductByName } from "@/domain/contracts/repositories";
 import { ProductModel } from "@/domain/models";
 
 

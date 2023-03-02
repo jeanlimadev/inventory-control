@@ -1,4 +1,4 @@
-import { UserModel } from "@/domain/models";
+import { UserModel } from '@/domain/models';
 
 export interface CreateUser {
   create: (user: UserModel) => Promise<void>;

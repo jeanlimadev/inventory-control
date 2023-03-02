@@ -1,4 +1,4 @@
-import { CreateUser, FindUserByEmail } from "@/infra/db/repositories/interfaces";
+import { CreateUser, FindUserByEmail } from "@/domain/contracts/repositories";
 import { UserModel } from "@/domain/models";
 
 export class InMemoryUsersRepository implements CreateUser, FindUserByEmail {
