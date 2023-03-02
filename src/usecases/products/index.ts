@@ -1,1 +1,1 @@
-export * from './CreateProductUseCase'
+export * from './create-product-usecase'

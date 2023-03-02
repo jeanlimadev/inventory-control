@@ -1,5 +1,5 @@
-import { CreateProduct, FindProductByName } from "@/infra/repositories/interfaces";
-import { ProductModel } from "@/models";
+import { CreateProduct, FindProductByName } from "@/infra/db/repositories/interfaces";
+import { ProductModel } from "@/domain/models";
 
 
 export class CreateProductUseCase {

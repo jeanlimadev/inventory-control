@@ -1,6 +1,6 @@
 import { randomUUID }  from "node:crypto"
 
-import { ProductModel } from "@/models";
+import { ProductModel } from "@/domain/models";
 
 import { faker } from "@faker-js/faker";
 

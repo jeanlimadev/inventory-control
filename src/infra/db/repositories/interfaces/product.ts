@@ -1,4 +1,4 @@
-import { ProductModel } from "@/models";
+import { ProductModel } from "@/domain/models";
 
 
 export interface CreateProduct {

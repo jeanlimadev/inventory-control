@@ -1,6 +1,6 @@
 import { randomUUID } from 'node:crypto';
 
-import { UserModel } from "@/models";
+import { UserModel } from "@/domain/models";
 
 import { faker } from '@faker-js/faker';
 
@@ -10,7 +10,7 @@ export class UserBuilder {
       id: randomUUID(),
       email: faker.internet.email(),
       name: faker.name.firstName(),
-      password: faker.random.alphaNumeric().toString(),
+      password: 'hashed-password',
       createdAt: faker.datatype.datetime()
     })
   }

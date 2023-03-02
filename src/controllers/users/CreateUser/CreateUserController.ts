@@ -1,7 +1,7 @@
-import { hash } from "bcrypt";
-import { Request, Response } from "express";
+import { prismaClient } from '@/database/prismaClient';
 
-import { prismaClient } from "../../../database/prismaClient";
+import { hash } from 'bcrypt';
+import { Request, Response } from 'express';
 
 class CreateUserController {
   async handle(request: Request, response: Response): Promise<Response> {
@@ -17,7 +17,7 @@ class CreateUserController {
       });
 
       if (userAlreadyExists) {
-        return response.status(500).json({ error: "user already exists!" });
+        return response.status(500).json({ error: 'user already exists!' });
       }
 
       await prismaClient.users.create({
@@ -28,9 +28,12 @@ class CreateUserController {
         },
       });
 
-      return response.status(201).json({ message: "User successfully created. Confirm your email to be able to use the application." });
+      return response.status(201).json({
+        message:
+          'User successfully created. Confirm your email to be able to use the application.',
+      });
     } catch (error) {
-      return response.status(400).json({ error: "Verify your request data." });
+      return response.status(400).json({ error: 'Verify your request data.' });
     }
   }
 }

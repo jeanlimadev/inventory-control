@@ -7,7 +7,7 @@ export interface UserProps {
 }
 
 export class UserModel {
-  constructor(private readonly props: UserProps) {
+  constructor(public readonly props: UserProps) {
     this.props = props;
   }
 

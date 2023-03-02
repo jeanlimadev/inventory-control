@@ -1,5 +1,5 @@
-import { CreateUser, FindUserByEmail } from "@/infra/repositories/interfaces";
-import { UserModel } from "@/models";
+import { CreateUser, FindUserByEmail } from "@/infra/db/repositories/interfaces";
+import { UserModel } from "@/domain/models";
 
 export class InMemoryUsersRepository implements CreateUser, FindUserByEmail {
   constructor(private readonly users: UserModel[] = []) {}

@@ -1,8 +1,8 @@
-import { ProductBuilder } from "#/builders/models/product";
-import { InMemoryProductsRepository } from "#/infra/repositories";
-import { ProductModel } from "@/models";
-import { CreateProductUseCase } from "@/usecases/products"
+import { ProductModel } from '@/domain/models';
+import { CreateProductUseCase } from '@/usecases/products';
 
+import { ProductBuilder } from '#/builders/models/product';
+import { InMemoryProductsRepository } from '#/infra/repositories';
 
 interface Subject {
   productsRepository: InMemoryProductsRepository;
@@ -17,9 +17,9 @@ const createSubject = (products: ProductModel[] = []): Subject => {
 
   return {
     productsRepository,
-    sut
-  }
-}
+    sut,
+  };
+};
 
 describe('CreateProductUseCase', () => {
   it('should be able to create a product', async () => {
@@ -29,7 +29,7 @@ describe('CreateProductUseCase', () => {
     await sut.execute(product);
 
     expect(productsRepository.create).toHaveBeenNthCalledWith(1, product);
-  })
+  });
 
   it('should not be able to create a product', async () => {
     const product = new ProductBuilder().build();
@@ -38,5 +38,5 @@ describe('CreateProductUseCase', () => {
     await expect(sut.execute(product)).rejects.toThrow();
 
     expect(productsRepository.create).not.toHaveBeenCalled();
-  })
-})
+  });
+});
