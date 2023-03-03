@@ -1,9 +1,9 @@
-import { UserModel } from "@/domain/models";
-import { CreateUserUseCase } from "@/usecases/users"
+import { UserModel } from '@/domain/models';
+import { CreateUserUseCase } from '@/usecases/users';
 
-import { UserBuilder } from "#/builders/models/user";
-import { InMemoryUsersRepository } from "#/infra/repositories";
-import { HasherProviderStub } from "#/infra/hash";
+import { UserBuilder } from '#/builders/models/user';
+import { HasherProviderStub } from '#/infra/hash';
+import { InMemoryUsersRepository } from '#/infra/repositories';
 
 interface Subject {
   usersRepository: InMemoryUsersRepository;
@@ -21,21 +21,22 @@ const createSubject = (users: UserModel[] = []): Subject => {
   return {
     usersRepository,
     hasherProviderStub,
-    sut
-  }
-}
+    sut,
+  };
+};
 
 describe('CreateUserUseCase', () => {
   it('should be abe to create a user', async () => {
     const { sut, usersRepository, hasherProviderStub } = createSubject();
     const user = new UserBuilder().build();
-    const hasherStub = jest.spyOn(hasherProviderStub, 'hash')
+    const hasherStub = jest.spyOn(hasherProviderStub, 'hash');
+    user.password = 'hashed-password';
 
     await sut.execute(user);
 
     expect(usersRepository.create).toHaveBeenNthCalledWith(1, user);
-    expect(hasherStub).toHaveBeenCalledWith('hashed-password')
-  })
+    expect(hasherStub).toHaveBeenCalledWith(user.password);
+  });
 
   it('should not be abe to create a user', async () => {
     const user = new UserBuilder().build();
@@ -44,5 +45,5 @@ describe('CreateUserUseCase', () => {
     await expect(sut.execute(user)).rejects.toThrow();
 
     expect(usersRepository.create).not.toHaveBeenCalled();
-  })
-})
+  });
+});
